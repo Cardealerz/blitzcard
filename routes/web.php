@@ -16,5 +16,30 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index']);
 
+Route::get('/', 'App\Http\Controllers\HomeController@index')->name('home.index');
+
 Auth::routes();
 
+//CodeTemplate routes that only admins shall use
+Route::group(['prefix' => 'codeTemplate'], function () {
+    Route::get('/details/{id}', 'App\Http\Controllers\CodeTemplateController@details_admin')->name('codeTemplate.details');
+    Route::get('/create', 'App\Http\Controllers\CodeTemplateController@create')->name('codeTemplate.create');
+    Route::get('/list', 'App\Http\Controllers\CodeTemplateController@list_admin')->name('codeTemplate.list');
+    Route::post('/save', 'App\Http\Controllers\CodeTemplateController@save')->name('codeTemplate.save');
+    Route::delete('/delete/{id}', 'App\Http\Controllers\CodeTemplateController@delete')->name('codeTemplate.delete');
+});
+
+//Code routes for general use
+Route::group(['prefix' => 'code'], function () {
+    Route::get('/list', 'App\Http\Controllers\CodeTemplateController@list')->name('code.list');
+    Route::get('/details/{id}', 'App\Http\Controllers\CodeTemplateController@details')->name('code.details');
+});
+
+Route::group(['prefix' => 'cart'], function () {
+    Route::get('/index', 'App\Http\Controllers\ShoppingController@index')->name('cart.index');
+    Route::get('/add/{id}', 'App\Http\Controllers\ShoppingController@add_one')->name('cart.addOne');
+    Route::post('/add', 'App\Http\Controllers\ShoppingController@add')->name('cart.add');
+    Route::get('/removeItem/{id}', 'App\Http\Controllers\ShoppingController@removeItem')->name('cart.removeItem');
+    Route::get('/removeAll', 'App\Http\Controllers\ShoppingController@removeAll')->name('cart.removeAll');
+    Route::get('/buy', 'App\Http\Controllers\ShoppingController@buy')->name('cart.buy');
+});
