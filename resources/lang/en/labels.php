@@ -25,6 +25,7 @@ return [
     'total_price' => 'Total price',
     'products_cart' => 'Products in cart',
     'remove_all_cart' => 'Remove all items in cart',
+    'continue_shopping' => 'Continue shopping',
     'remove_item_cart' => 'Remove item from cart',
     'buy' => 'Buy',
 ];

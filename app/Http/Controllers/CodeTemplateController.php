@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\CodeTemplate;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CodeTemplateController extends Controller
 {
@@ -17,7 +18,7 @@ class CodeTemplateController extends Controller
                 $query->where('used', 0);
             }])->findOrFail($id);
         } catch (ModelNotFoundException $e) {
-            return redirect()->route('home.index')->with('error', __('messages.codeTemplate_notfound'));
+            return redirect()->route('home.index')->withErrors([__('messages.codeTemplate_notfound')]);
         }
 
         return view('code.details')->with('codeTemplate', $codeTemplate);
@@ -25,12 +26,16 @@ class CodeTemplateController extends Controller
 
     public function details_admin($id)
     {
+        if (! Auth::check() || Auth::user()->role != 'admin') {
+            return redirect()->route('home.index')->withErrors([__('messages.no_permission')]);
+        }
+
         $codeTemplate = [];
 
         try {
             $codeTemplate = CodeTemplate::with('codes')->findOrFail($id);
         } catch (ModelNotFoundException $e) {
-            return redirect()->route('home.index')->with('error', __('messages.codeTemplate_notfound'));
+            return redirect()->route('home.index')->withErrors([('messages.codeTemplate_notfound')]);
         }
 
         return view('codeTemplate.details')->with('codeTemplate', $codeTemplate);
@@ -38,6 +43,10 @@ class CodeTemplateController extends Controller
 
     public function list_admin()
     {
+        if (! Auth::check() || Auth::user()->role != 'admin') {
+            return redirect()->route('home.index')->withErrors([__('messages.no_permission')]);
+        }
+
         $codeTemplates = CodeTemplate::orderBy('id', 'ASC')->withCount(['codes' => function ($query) {
             $query->where('used', 0);
         }])->get();
@@ -72,6 +81,9 @@ class CodeTemplateController extends Controller
 
     public function save(Request $request)
     {
+        if (! Auth::check() || Auth::user()->role != 'admin') {
+            return redirect()->route('home.index')->withErrors([__('messages.no_permission')]);
+        }
         CodeTemplate::validate($request);
         CodeTemplate::create($request->all());
 
@@ -80,6 +92,9 @@ class CodeTemplateController extends Controller
 
     public function delete($id)
     {
+        if (! Auth::check() || Auth::user()->role != 'admin') {
+            return redirect()->route('home.index')->withErrors([__('messages.no_permission')]);
+        }
         CodeTemplate::find($id)->delete();
 
         return redirect()->route('home.index')->with('success', __('messages.delete_success'));

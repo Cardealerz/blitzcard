@@ -4,10 +4,10 @@
 
 @section('content')
 <div class="container">
-    @if(count($errors) > 0)
+    @if($errors->any())
     <div class="alert alert-danger">
         <ul id="errors">
-            @foreach($errors as $error)
+            @foreach($errors->all() as $error)
             <li>{{ $error }}</li>
             @endforeach
         </ul>
@@ -38,12 +38,14 @@
                     @endforeach
                 </tbody>
             </table>
+            <a href="{{ route('cart.removeAll') }}">{{__('labels.remove_all_cart')}}</a><br />
             @else
-            {{__('messages.empty_cart')}}
+            {{__('messages.empty_cart')}}<br />
             @endif
-            <a href="{{ route('cart.removeAll') }}">{{__('labels.remove_all_cart')}}</a><br /><br />
+            <br />
             <h5>{{__('labels.total_price')}}: ${{$data["total"]}}</h5>
-            <a href="{{ route('cart.buy') }}" class="btn btn-primary  btn-lg">{{__('labels.buy')}}</a>
+            <a href="{{ route('cart.buy') }}" class="btn btn-primary  btn-lg mb-1">{{__('labels.buy')}}</a><br />
+            <a href="{{ route('code.list') }}" class="btn btn-outline-secondary  btn">{{__('labels.continue_shopping')}}</a>
         </div>
     </div>
 </div>

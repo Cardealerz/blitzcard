@@ -68,4 +68,9 @@ class Item extends Model
     {
         return $this->belongsTo(CodeTemplate::class);
     }
+
+    public function codes()
+    {
+        return $this->hasMany(Code::class);
+    }
 }

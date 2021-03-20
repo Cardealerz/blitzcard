@@ -15,7 +15,7 @@
                 </div>
             </div>
             @empty
-            <b>{{__('messages.no_code_templates')}}</b>
+            <b>{{__('messages.no_codes')}}</b>
             @endforelse
         </div>
     </div>

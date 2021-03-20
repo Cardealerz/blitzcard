@@ -9,7 +9,7 @@ class Code extends Model
 {
     use HasFactory;
 
-    //Attributes: id, code_temaplte_id, code, used
+    //Attributes: id, code_temaplte_id, code, used, item_id
     protected $fillable = ['code_template_id', 'code', 'used'];
 
     public static function validate($request)
@@ -61,8 +61,18 @@ class Code extends Model
         $this->attributes['code_template_id'] = $code_template_id;
     }
 
+    public function setItemId($item_id)
+    {
+        $this->attributes['item_id'] = $item_id;
+    }
+
     public function codeTemplate()
     {
         return $this->belongsTo(CodeTemplate::class);
+    }
+
+    public function item()
+    {
+        return $this->belongsTo(Item::class);
     }
 }

@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Code;
 use App\Models\CodeTemplate;
 use App\Models\Item;
 use App\Models\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ShoppingController extends Controller
 {
@@ -67,9 +69,13 @@ class ShoppingController extends Controller
 
     public function buy(Request $request)
     {
+        if (! Auth::check()) {
+            return redirect()->route('login')->withErrors([__('messages.please_log_in')]);
+        }
         $data = [];
         $data['title'] = 'Buy';
         $order = new Order();
+        $order->setUserId(Auth::user()->id);
         $order->setTotal(0);
         $order->save();
 
@@ -79,10 +85,26 @@ class ShoppingController extends Controller
             $listProductsInCart = CodeTemplate::findMany(array_keys($ids));
             foreach ($listProductsInCart as $product) {
                 $item = new Item();
+                $item->setSubTotal(0);
                 $item->setQuantity($ids[$product->getId()]);
-                $item->setSubTotal($product->getValue() * $item->getQuantity());
                 $item->setCodeTemplateId($product->getId());
                 $item->setOrderId($order->getId());
+                $item->save();
+
+                $codes = Code::where(['code_template_id' => $product->getId(), 'used' => 0])->take($item->getQuantity())->get();
+                if (count($codes) < $item->getQuantity()) {
+                    $item->delete();
+                    $order->delete();
+
+                    return redirect()->route('cart.index')->withErrors([__('messages.insufficient_stock')]);
+                }
+                foreach ($codes as $code) {
+                    $code->setItemId($item->getId());
+                    $code->setUsed(1);
+                    $code->save();
+                }
+                $item->setSubTotal($product->getValue() * $item->getQuantity());
+
                 $item->save();
                 $total = $total + $item->getSubTotal();
             }
@@ -94,7 +116,7 @@ class ShoppingController extends Controller
         } else {
             $order->delete();
 
-            return redirect()->route('cart.index')->with('errors', [__('messages.no_items_in_cart')]);
+            return redirect()->route('cart.index')->withErrors([__('messages.no_items_in_cart')]);
         }
 
         $request->session()->forget('products');
