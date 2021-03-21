@@ -19,15 +19,17 @@
                     @forelse($data["codeTemplates"] as $codeTemplate)
                     <tr>
                         <th scope="row">{{$codeTemplate->getId()}}</th>
-                        <td>{{$codeTemplate->getPlatform()}}</td>
+                        <td>{{$codeTemplate->getName()}}</td>
                         <td>{{$codeTemplate->codes_count}}</button></td>
-                        <td><button type=" button" class="btn btn-primary" onclick="window.location='{{ route("codeTemplate.details",['id' => $codeTemplate->getId()]) }}'">{{__('labels.details')}}</button></td>
+                        <td><a class="btn btn-primary" href="{{ route('codeTemplate.details',['id' => $codeTemplate->getId()]) }}">{{__('labels.details')}}</a></td>
                     </tr>
                     @empty
                     <b>{{__('messages.no_code_templates')}}</b>
                     @endforelse
                 </tbody>
             </table>
+            <a href="{{route('codeTemplate.create')}}" class="btn btn-primary">{{__('messages.add_code_template')}}</a><br /><br />
+            <a href="{{route('home.index')}}" class="btn btn-primary">{{__('labels.back_home')}}</a><br />
         </div>
     </div>
 </div>

@@ -9,7 +9,7 @@
             @forelse($data["codeTemplates"] as $codeTemplate)
             <div class="card mb-2">
                 <div class="card-body">
-                    <p class="card-text">{{"$". $codeTemplate->getValue()." ". $codeTemplate->getPlatform()." ". $codeTemplate->getType()}}</p>
+                    <p class="card-text">{{$codeTemplate->getName()}}</p>
                     <a href="{{ route('code.details', ['id'=> $codeTemplate->getId()]) }}" class="btn btn-secondary float-right ">{{__('labels.view_details')}}</a>
                     <a href="{{ route('cart.addOne', ['id'=> $codeTemplate->getId()]) }}" class="btn btn-primary float-right mr-1">{{__('labels.add_cart')}}</a>
                 </div>
@@ -17,6 +17,7 @@
             @empty
             <b>{{__('messages.no_codes')}}</b>
             @endforelse
+            <a href="{{route('home.index')}}" class="btn btn-primary">{{__('labels.back_home')}}</a><br /><br />
         </div>
     </div>
 </div>

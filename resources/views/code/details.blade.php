@@ -7,7 +7,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">${{$codeTemplate->getValue()." ". $codeTemplate->getPlatform()." ". $codeTemplate->getType()}}</div>
+                <div class="card-header">{{$codeTemplate->getName()}}</div>
 
                 <div class="card-body">
 
@@ -27,7 +27,7 @@
                             </div>
                         </div>
                     </form>
-                    <a href="{{ route('code.list') }}" class="btn btn-primary">{{__('labels.back')}}</a><br /><br />
+                    <a href="{{url()->previous()}}" class="btn btn-primary">{{__('labels.back')}}</a><br /><br />
 
                 </div>
             </div>

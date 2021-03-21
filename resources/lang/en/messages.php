@@ -16,4 +16,6 @@ return [
     'please_log_in' => 'Please log in to continue',
     'no_permission' => 'You do not have permission to view this.',
     'insufficient_stock' => 'We currently do not have enough codes to supply your order, we are sorry.',
+    'confirmation' => 'Are you sure?',
+    'cannot_undo' => 'This action cannot be undone',
 ];

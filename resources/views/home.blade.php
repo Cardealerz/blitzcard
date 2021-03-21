@@ -4,6 +4,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
+
             @if($errors->any())
             <div class="alert alert-danger">
                 <ul id="errors">
@@ -13,6 +14,13 @@
                 </ul>
             </div>
             @endif
+
+            @if(Session::has('success'))
+            <div class="alert alert-info">
+                {{Session::get('success')}}
+            </div>
+            @endif
+
             <div class="card">
                 <div class="card-header">{{ __('Dashboard') }}</div>
                 <div class="card-body">

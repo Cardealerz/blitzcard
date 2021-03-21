@@ -70,4 +70,9 @@ class CodeTemplate extends Model
     {
         return $this->hasMany(Code::class);
     }
+
+    public function getName()
+    {
+        return '$'.$this->attributes['value'].' '.$this->attributes['platform'].' '.$this->attributes['type'];
+    }
 }

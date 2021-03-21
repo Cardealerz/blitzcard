@@ -10,14 +10,13 @@ class Code extends Model
     use HasFactory;
 
     //Attributes: id, code_temaplte_id, code, used, item_id
-    protected $fillable = ['code_template_id', 'code', 'used'];
+    protected $fillable = ['code_template_id', 'code'];
 
     public static function validate($request)
     {
         $request->validate([
             'code_template_id' => 'required',
-            'code' => 'required',
-            'used' => 'required',
+            'code' => ['required', 'regex:/[A-Z0-9]{4,8}(-[A-Z0-9]{4,8}){2,8}/'],
         ]);
     }
 

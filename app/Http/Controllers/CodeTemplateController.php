@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Code;
 use App\Models\CodeTemplate;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -88,6 +89,17 @@ class CodeTemplateController extends Controller
         CodeTemplate::create($request->all());
 
         return redirect()->route('home.index')->with('success', __('messages.add_success'));
+    }
+
+    public function add_code(Request $request)
+    {
+        if (! Auth::check() || Auth::user()->role != 'admin') {
+            return redirect()->route('home.index')->withErrors([__('messages.no_permission')]);
+        }
+        Code::validate($request);
+        Code::create($request->all());
+
+        return back();
     }
 
     public function delete($id)

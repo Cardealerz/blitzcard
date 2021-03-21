@@ -29,7 +29,7 @@
                 <tbody>
                     @foreach($data["productsInCart"] as $product)
                     <tr>
-                        <td>{{$product->getPlatform()." ". $product->getType()}}</td>
+                        <td><a href="{{ route('code.details', ['id'=> $product->getId()]) }}">{{$product->getPlatform()." ". $product->getType()}}</a></td>
                         <td>${{$product->getValue()}}</td>
                         <td>{{$data["quantities"][$product->getId()]}}</td>
                         <td>${{$data["quantities"][$product->getId()]*$product->getValue()}}</td>

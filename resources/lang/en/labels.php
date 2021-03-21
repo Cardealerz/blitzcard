@@ -12,10 +12,12 @@ return [
     'add_funds' => 'Add funds',
     'cart' => 'Cart',
     'used' => 'Used',
+    'unused' => 'Unused',
     'enter' => 'Enter',
     'add' => 'Add',
     'delete' => 'Delete',
     'back' => 'Back',
+    'back_home' => 'Back to Home',
     'code' => 'Code',
     'codes' => 'Codes',
     'product' => 'Product',
@@ -28,4 +30,8 @@ return [
     'continue_shopping' => 'Continue shopping',
     'remove_item_cart' => 'Remove item from cart',
     'buy' => 'Buy',
+    'add_new_code' => 'Add a new code',
+    'status' => 'Status',
+    'cancel' => 'Cancel',
+
 ];

@@ -20,7 +20,7 @@ class CreateCodesTable extends Migration
             $table->bigInteger('item_id')->nullable()->unsigned();
             $table->foreign('item_id')->references('id')->on('items');
             $table->string('code');
-            $table->boolean('used');
+            $table->boolean('used')->default(0);
             $table->timestamps();
         });
     }

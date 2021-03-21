@@ -23,6 +23,7 @@ Auth::routes();
 //CodeTemplate routes that only admins shall use
 Route::group(['prefix' => 'codeTemplate'], function () {
     Route::get('/details/{id}', 'App\Http\Controllers\CodeTemplateController@details_admin')->name('codeTemplate.details');
+    Route::post('/add', 'App\Http\Controllers\CodeTemplateController@add_code')->name('codeTemplate.add_code');
     Route::get('/create', 'App\Http\Controllers\CodeTemplateController@create')->name('codeTemplate.create');
     Route::get('/list', 'App\Http\Controllers\CodeTemplateController@list_admin')->name('codeTemplate.list');
     Route::post('/save', 'App\Http\Controllers\CodeTemplateController@save')->name('codeTemplate.save');
