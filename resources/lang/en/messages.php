@@ -15,6 +15,7 @@ return [
     'see_templates' => 'See code templates in shop',
     'please_log_in' => 'Please log in to continue',
     'no_permission' => 'You do not have permission to view this.',
+    'no_funds' => 'Not enought funds for this operation.',
     'insufficient_stock' => 'We currently do not have enough codes to supply your order, we are sorry.',
     'confirmation' => 'Are you sure?',
     'cannot_undo' => 'This action cannot be undone',

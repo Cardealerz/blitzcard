@@ -15,7 +15,7 @@ class PayHistory extends Model{
             id
             uuid: Will be the name of a PayHistory element
             userID: Foreign key to an user
-            orderID: Foreign key to an order, unique
+            orderID: id of an order, is not a foreign key because it could be null
             amount: Must be greather than 0
             billing_Address
             payment_type: It could be from buying an order or from charging to wallet
@@ -26,29 +26,25 @@ class PayHistory extends Model{
     */
 
 
-    public static function validate($request_data){
+    public static function validatePostData(Request $request){
+        $request->validate([
+            "user_id" => "required",
+            "amount" => "required|gt",
+            "billing_address" => "required",
+            "payment_method" => "required",
+            "payment_date" => "required",
+            "payment_type" => "required"
+        ]);
+
+    }
+
+    public static function validateOtherData($request_data){
 
         if (!array_key_exists('uuid', $request_data)){
-            throw new Exception('valid uuid is required for a new PayHistory');
+            throw new Exception('uuid is required for a new PayHistory');
         }else{
             if ($request_data['uuid'] == ""){
                 throw new Exception('uuid can\'t be empty for a new PayHistory');
-            }
-        }
-
-        if (!array_key_exists('user_id', $request_data)){
-            throw new Exception('Valid user is required for this PayHistory');
-        }else{
-            if ($request_data['user_id'] < 1){
-                throw new Exception('Valid user is required for this PayHistory');
-            }
-        }
-
-        if (!array_key_exists('order_id', $request_data)){
-            throw new Exception('Valid order is required for this PayHistory');
-        }else{
-            if ($request_data['order_id'] < 1){
-                throw new Exception('Valid order is required for this PayHistory');
             }
         }
 
@@ -60,41 +56,10 @@ class PayHistory extends Model{
             }
         }
 
-        if (!array_key_exists('amount', $request_data)){
-            throw new Exception('amount is required for a new PayHistory');
-        }else{
-            if ($request_data['amount'] <= 0){
-                throw new Exception('amount must be greater than 0');
-            }
-        }
-
-        if (!array_key_exists('billing_address', $request_data)){
-            throw new Exception('Billing Address is required for a new PayHistory');
-        }else{
-            if ($request_data['billing_address'] == ""){
-                throw new Exception('Billing Address is required for a new PayHistory');
-            }
-        }
-
-        if (!array_key_exists('payment_method', $request_data)){
-            throw new Exception('Payment Method is required for a new PayHistory');
-        }else{
-            if ($request_data['payment_method'] == ""){
-                throw new Exception('Payment Method is required for a new PayHistory');
-            }
-        }
-
         if (array_key_exists('payment_status', $request_data)){
             throw new Exception('Payment status can\'t be setted from a form');
         }
 
-        if (!array_key_exists('payment_date', $request_data)){
-            throw new Exception('Payment date is required for a new PayHistory');
-        }else{
-            if ($request_data['payment_date'] == ""){
-                throw new Exception('Payment Date is required for a new PayHistory');
-            }
-        }
     }
 
     protected $fillable = ['uuid', 'user_id', 'order_id', 'amount','billing_address','payment_type','payment_method','payment_status','payment_date'];
@@ -160,6 +125,7 @@ class PayHistory extends Model{
     }
 
     public function setPaymentStatus($paymentStatus){
+        
         $this->attributes['payment_status'] = $paymentStatus;
     }
 
@@ -179,4 +145,7 @@ class PayHistory extends Model{
         $this->attributes['payment_type'] = $paymentType;
     } 
 
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
 }

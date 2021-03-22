@@ -15,8 +15,7 @@ class CreatePayHistoryTable extends Migration{
             $table->bigIncrements('id');
             $table->uuid('uuid');
             $table->foreign('user_id')->references('id')->on('users');
-            $table->integer('order_id')->unsigned()->unique();
-            $table->foreign('order_id')->references('id')->on('orders');
+            $table->bigInteger('order_id')->default(0);
             $table->double('amount');
             $table->string('billing_address',100);
             $table->string('payment_method',100);

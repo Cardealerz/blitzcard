@@ -121,6 +121,12 @@ class ShoppingController extends Controller
 
         $request->session()->forget('products');
 
-        return view('cart.buy')->with('data', $data);
+        $payment_data = [];
+        $payment_data["callback"] = view('cart.buy')->with('data', $data);
+        $payment_data[""];
+
+        return redirect()->route('payhistory.create', $payment_data);
+
+
     }
 }

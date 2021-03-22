@@ -6,58 +6,42 @@ use App\Models\PayHistory;
 use Exception;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class PayHistoryController extends Controller{
 
-    public function showOne($id){
-        $data = [];
-        $payHistory = PayHistory::findOrFail($id);
-
-        $data["title"] = $payHistory->getUuid();
-        $data["pay_history"] = $payHistory;
-
-        return view('payhistory.showOne')->with("data",$data);
-    }
-
-    public function showAll(){
-        $data = [];
-        $data["title"] = "Showing All Payhistory";
-        $data["pay_history"] = PayHistory::orderBy('id')->get();
-
-        return view('payhistory.showAll')->with("data",$data);
-    }
-
-    public function create(){
-        $data = [];
-        $data["title"] = "Create Pay History";
-        $data["payhistory"] = PayHistory::all();
-
-        return view('payhistory.create')->with("data",$data);
-    }
-
-
-    public function save($request_data) {
+    
+    public function createPayment(Request $request) {
+        
         if (! Auth::check()) {
             return redirect()->route('home.index')->withErrors([__('messages.no_permission')]);
         }
+        
+        PayHistory::validatePostData($request);
 
-        $request_data["uuid"] = Str::uuid()->toString();
+        $generatedData = [];
+        $generatedData["uuid"] = Str::uuid()->toString();
+        $mergedData = array_merge($request->only(["amount","billing_address","payment_method","payment_date","payment_type"]), $generatedData);
+            
         try{
-            PayHistory::validate($request_data);
+            PayHistory::validateOtherData($request);
         }catch(Exception $error){
-            return redirect()->route('home.index')->withErrors([__('messages.no_permission')]);
+            
         }
         
-        PayHistory::create($request_data);
+        $payment = PayHistory::create($mergedData);
+        $user_id = Auth::user()->id;
 
-        return back()->with('success','Item created successfully!');
+        $user = User::findOrFail($user_id);
+        if ($user->SubtractFunds($mergedData['amount'])){
+            $payment->setStatus("accepted");
+        }else{
+            $payment->setStatus("failed");
+            return redirect()->route('home.index')->withErrors([__('messages.no_funds')]);
+        }
+        
+        return $request["callback"];
     }
 
-    public function delete($id){
-        $payHistory = PayHistory::findOrFail($id);
-        $payHistory->delete();
-        return redirect()->route('payhistory.showAll')->with('success','Item deleted successfully!');
-    }
-
-
+   
 }
