@@ -25,7 +25,9 @@ class CreatePayHistoryTable extends Migration{
             $table->timestamp('payment_date');
             $table->timestamps();
         });
+        
     }
+    
 
     /**
      * Reverse the migrations.

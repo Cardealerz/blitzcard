@@ -86,19 +86,19 @@ class PayHistory extends Model{
         return $this->attributes['uuid'];
     }
 
-    public function setUserID($userID){
+    public function setUserId($userID){
         $this->attributes['user_id'] = $userID;
     }
 
-    public function getUserID(){
+    public function getUserId(){
         return $this->attributes['user_id'];
     }
 
-    public function setOrderID($orderID){
+    public function setOrderId($orderID){
         $this->attributes['order_id'] = $orderID;
     }
 
-    public function getOrderID(){
+    public function getOrderId(){
         return $this->attributes['order_id'];
     }
 
@@ -157,5 +157,23 @@ class PayHistory extends Model{
 
     public function user(){
         return $this->belongsTo(User::class);
+    }
+
+    public function codes(){
+        $items = Item::where('order_id', '=', $this->getOrderId())->get();
+        $codes = array();
+
+        foreach($items as $item){
+            $codeInfo = [];
+
+            $code = Code::where('item_id', '=', $item->getId())->get()->first();
+            $codeInfo["code"] = $code->getCode();
+
+            $codeTemplate = CodeTemplate::where('id', '=', $code->getCodeTemplateId())->get()->first();
+            $codeInfo["name"] = $codeTemplate->getName();
+            
+            array_push($codes, $codeInfo);
+        }
+        return $codes;
     }
 }

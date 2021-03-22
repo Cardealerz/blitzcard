@@ -122,7 +122,6 @@ class ShoppingController extends Controller
             $order->save();
         } else {
             $order->delete();
-
             return redirect()->route('cart.index')->withErrors([__('messages.no_items_in_cart')]);
         }
 
@@ -140,6 +139,10 @@ class ShoppingController extends Controller
         $paymentData["payment_type"] = "order";
         $paymentData["callback"] = view('cart.buy')->with('data', $data);
         $paymentData["comming_from"] = "ShoppingCar";
+        $paymentData["comming_from"] = "ShoppingCar";
+        
+
+        
 
         $post = new PostCaller(
             PayHistoryController::class,
@@ -149,6 +152,10 @@ class ShoppingController extends Controller
         );
 
         $response = $post->call();
+
+        $order->setPayHistoryId($response["payment_id"]);
+        $order->save();
+        
 
         if ($response["success"]){
             foreach ($order_codes as $code){

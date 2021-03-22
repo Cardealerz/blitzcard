@@ -8,6 +8,8 @@ use App\Http\PostCaller;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Carbon\Carbon;
+use DB;
+use PDF;
 
 class PayHistoryController extends Controller{
 
@@ -97,6 +99,7 @@ class PayHistoryController extends Controller{
         }
                             
         $payment = PayHistory::create($paymentData);
+        $responseData["payment_id"] = $payment->getId();  
         $user_id = Auth::user()->id;
         
         $user = User::findOrFail($user_id);
@@ -120,12 +123,43 @@ class PayHistoryController extends Controller{
             $payment->save();
             
         }
-
+        
         $responseData["redirect"] = $request["callback"];
-        $responseData["success"] = true;    
+        $responseData["success"] = true;  
+        
         return PayHistoryController::responseFor($request->all(), $responseData);
 
     }
+
+    public function showAll(){
+        if (! Auth::check()) {
+            return redirect()->route('cart.index')->withErrors([__('messages.no_permission')]);
+        }
+
+        $data = [];
+        $data["title"] = "User Payments";
+
+        $payHistory = PayHistory::where('user_id', '=', Auth::user()->id)->latest()->get();
+        $data['pay_history'] = $payHistory;
+        return view('payHistory.showAll')->with('data', $data);
+    }
+
+    public function showOne($payment_id){
+        if (! Auth::check()) {
+            return redirect()->route('cart.index')->withErrors([__('messages.no_permission')]);
+        }
+        
+        $payHistory = [];
+        $payHistory = PayHistory::findOrFail($payment_id);
+
+        return view('payHistory.showOne')->with('payHistory', $payHistory);
+    }
+
+    public function createPDF($payment_id){
+        
+        return view('payHistory.pdfview');
+    }
+
 
     private static function responseFor($requestData, $responseData){
         if (array_key_exists('comming_from', $requestData)){
@@ -134,6 +168,7 @@ class PayHistoryController extends Controller{
             return $responseData["redirect"];
         }
     }
+
 
    
 }
