@@ -119,6 +119,22 @@ return [
     'url' => 'The :attribute format is invalid.',
     'uuid' => 'The :attribute must be a valid UUID.',
 
+    'payhistory_uuid' => 'Valid uuid is required for a new PayHistory',
+    'payhistory_userid' => 'Valid user is required for this PayHistory',
+    'payhistory_orderid' => 'Valid order is required for this PayHistory',
+    'payhistory_payment_type' => [
+        'not_exists' => 'Payment Type is required for a new PayHistory',
+        'invalid' => 'Payment Type must be order or wallet'
+    ],
+    'payhistory_amount' => [
+        'not_exists' => 'Amount is required for a new PayHistory',
+        'invalid' => 'Amount must be greater than 0'
+    ],
+    'payhistory_billing_address' => 'Billing Address is required for a new PayHistory',
+    'payhistory_payment_method' => 'Payment Method is required for a new PayHistory',
+    'payhistory_payment_status' => 'Payment status can\'t be setted from a form',
+    'payhistory_payment_date' => 'Payment date is required for a new PayHistory',
+
     /*
     |--------------------------------------------------------------------------
     | Custom Validation Language Lines
