@@ -25,34 +25,44 @@ class PayHistory extends Model{
             updated_at
     */
 
-
-    public static function validatePostData(Request $request){
+    public static function validateFinishPaymentData(Request $request){
         $request->validate([
+            "uuid" => "required",
             "user_id" => "required",
-            "amount" => "required|gt",
+            "order_id" => "required",
+            "amount" => "required|gt:0",
             "billing_address" => "required",
             "payment_method" => "required",
-            "payment_date" => "required",
-            "payment_type" => "required"
+            "payment_type" => "required",
+            "callback" => "required"
         ]);
+    }
 
+    public static function validateCreatePaymentData(Request $request){
+        $request->validate([
+            "uuid" => "required",
+            "user_id" => "required",
+            "order_id" => "required",
+            "amount" => "required|gt:0",
+            "payment_type" => "required",
+            "callback" => "required"
+        ]);
     }
 
     public static function validateOtherData($request_data){
 
-        if (!array_key_exists('uuid', $request_data)){
-            throw new Exception('uuid is required for a new PayHistory');
-        }else{
-            if ($request_data['uuid'] == ""){
-                throw new Exception('uuid can\'t be empty for a new PayHistory');
-            }
+        if (!array_key_exists('payment_date', $request_data)){
+            throw new Exception('Payment Date is required for a new PayHistory');
         }
-
+        
         if (!array_key_exists('payment_type', $request_data)){
             throw new Exception('Payment Type is required for a new PayHistory');
         }else{
-            if ($request_data['payment_type'] != "order" || $request_data['payment_type'] != "wallet"){
+            if ($request_data['payment_type'] != "order" && $request_data['payment_type'] != "wallet"){
                 throw new Exception('Payment Type must be order or wallet');
+            }
+            if ($request_data['payment_type'] == "order" && !array_key_exists('order_id', $request_data)){
+                throw new Exception('Payment of an order must have an order id');
             }
         }
 
@@ -62,7 +72,7 @@ class PayHistory extends Model{
 
     }
 
-    protected $fillable = ['uuid', 'user_id', 'order_id', 'amount','billing_address','payment_type','payment_method','payment_status','payment_date'];
+    protected $fillable = ['uuid', 'user_id', 'order_id', 'amount','billing_address','payment_method', 'payment_type','payment_date'];
 
     public function getId(){
         return $this->attributes['id'];

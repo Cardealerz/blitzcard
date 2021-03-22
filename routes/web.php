@@ -46,7 +46,8 @@ Route::group(['prefix' => 'cart'], function () {
 });
 
 Route::group(['prefix' => 'payment'], function () {
-    Route::post('/', 'App\Http\Controllers\PayHistoryController@createPayment')->name('payhistory.create');
+    Route::post('/buy', 'App\Http\Controllers\PayHistoryController@createPayment')->name('payhistory.create');
+    Route::post('/finish', 'App\Http\Controllers\PayHistoryController@finishPayment')->name('payhistory.finish');
 });
 
 Route::group(['prefix' => 'user'], function () {

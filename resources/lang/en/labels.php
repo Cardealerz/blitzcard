@@ -33,5 +33,6 @@ return [
     'add_new_code' => 'Add a new code',
     'status' => 'Status',
     'cancel' => 'Cancel',
+    'billing_address' => "Billing Address"
 
 ];

@@ -135,8 +135,15 @@ class User extends Authenticatable
     public function SubtractFunds($amount){
 
         $current_funds = $this->getFunds();
-        $this->setFunds($current_funds - $amount);
+        $new_funds = $current_funds - $amount;
+        if ($new_funds <= 0){
+            return false;
+        }
 
+        $this->setFunds($new_funds);
+        $this->save();
+        
+        return true;   
     }
 
 }

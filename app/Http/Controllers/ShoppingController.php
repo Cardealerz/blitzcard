@@ -6,8 +6,10 @@ use App\Models\Code;
 use App\Models\CodeTemplate;
 use App\Models\Item;
 use App\Models\Order;
+use App\Http\PostCaller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class ShoppingController extends Controller
 {
@@ -119,13 +121,28 @@ class ShoppingController extends Controller
             return redirect()->route('cart.index')->withErrors([__('messages.no_items_in_cart')]);
         }
 
-        $request->session()->forget('products');
+        
 
-        $payment_data = [];
-        $payment_data["callback"] = view('cart.buy')->with('data', $data);
-        $payment_data[""];
+        $paymentData = [];
+        
+        $paymentData["uuid"] = Str::uuid()->toString();
+        $paymentData["user_id"] = Auth::user()->id;
+        $paymentData["order_id"] = $order->getId();
+        $paymentData["amount"] = $total;
+        $paymentData["payment_type"] = "order";
+        $paymentData["callback"] = view('cart.buy')->with('data', $data);
 
-        return redirect()->route('payhistory.create', $payment_data);
+        $post = new PostCaller(
+            PayHistoryController::class,
+            'createPayment',
+            Request::class,
+            $paymentData
+        );
+        
+        $response = $post->call();
+        $request->session()->forget('products'); 
+
+        return $response;
 
 
     }
