@@ -12,13 +12,17 @@ use Carbon\Carbon;
 class PayHistoryController extends Controller{
 
     public function createPayment(Request $request){
-        if (! Auth::check()) {
-            return redirect()->route('home.index')->withErrors([__('messages.no_permission')]);
-        }
-
         $viewData = [];
         $paymentData = [];
+        $responseData = [];
+
         $paymentData = $request->all();
+
+        if (! Auth::check()) {
+            $responseData["redirect"] = redirect()->route('cart.index')->withErrors([__('messages.no_permission')]);
+            $responseData["success"] = false;
+            return PayHistoryController::responseFor($paymentData, $responseData);
+        }
         
         if (!array_key_exists('order_id', $paymentData)){
             $paymentData["order_id"] = 0;
@@ -30,6 +34,7 @@ class PayHistoryController extends Controller{
 
         $viewData["title"] = "Payment Form";
         $viewData["payment"] = $paymentData;
+        
 
         if($paymentData["payment_type"] == "order"){
 
@@ -42,22 +47,32 @@ class PayHistoryController extends Controller{
                 Request::class,
                 $paymentData
             );
-            $response = $post->call();
 
+            $response = $post->call();
             return $response;
 
         }else if ($paymentData["payment_type" == "wallet"]){
-            return view('payHistory.createPayment')->with('data', $viewData);
-        }   
+
+            $responseData["redirect"] = view('payHistory.createPayment')->with('data', $viewData);
+            $responseData["success"] = true;
+            
+            return PayHistoryController::responseFor($paymentData, $responseData);
+        }  
         
-        return redirect()->route('cart.index')->withErrors([__('messages.no_permission')]); 
+        $responseData["redirect"] = redirect()->route('cart.index')->withErrors([__('messages.no_permission')]);
+        $responseData["success"] = false;
+            
+        return PayHistoryController::responseFor($paymentData, $responseData);
     }
     
 
     public function finishPayment(Request $request) {
-        
+        $responseData = [];
+
         if (! Auth::check()) {
-            return redirect()->route('home.index')->withErrors([__('messages.no_permission')]);
+            $responseData["redirect"] = redirect()->route('cart.index')->withErrors([__('messages.no_permission')]);
+            $responseData["success"] = false;
+            return PayHistoryController::responseFor($request->all(), $responseData);
         }
         
         $paymentData = $request->only([
@@ -76,7 +91,9 @@ class PayHistoryController extends Controller{
         try{
             PayHistory::validateOtherData($paymentData);
         }catch(Exception $error){
-            return redirect()->route('cart.index')->withErrors($error->getMessage());
+            $responseData["redirect"] = redirect()->route('cart.index')->withErrors($error->getMessage());
+            $responseData["success"] = false;    
+            return PayHistoryController::responseFor($request->all(), $responseData);
         }
                             
         $payment = PayHistory::create($paymentData);
@@ -91,7 +108,10 @@ class PayHistoryController extends Controller{
             }else{
                 $payment->setPaymentStatus("failed");
                 $payment->save();
-                return redirect()->route('home.index')->withErrors([__('messages.no_funds')]);
+                
+                $responseData["redirect"] = redirect()->route('cart.index')->withErrors([__('messages.no_funds')]);
+                $responseData["success"] = false;    
+                return PayHistoryController::responseFor($request->all(), $responseData);
             }
         }else if ($paymentData["payment_type" == "wallet"]){
             //check if paypal payment was approved
@@ -101,7 +121,18 @@ class PayHistoryController extends Controller{
             
         }
 
-        return $request["callback"];
+        $responseData["redirect"] = $request["callback"];
+        $responseData["success"] = true;    
+        return PayHistoryController::responseFor($request->all(), $responseData);
+
+    }
+
+    private static function responseFor($requestData, $responseData){
+        if (array_key_exists('comming_from', $requestData)){
+            return $responseData;
+        }else{
+            return $responseData["redirect"];
+        }
     }
 
    

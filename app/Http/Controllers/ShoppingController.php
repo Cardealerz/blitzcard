@@ -74,14 +74,19 @@ class ShoppingController extends Controller
         if (! Auth::check()) {
             return redirect()->route('login')->withErrors([__('messages.please_log_in')]);
         }
+
         $data = [];
         $data['title'] = 'Buy';
+
         $order = new Order();
         $order->setUserId(Auth::user()->id);
         $order->setTotal(0);
         $order->save();
-
+        
+        $order_codes = array();
         $total = 0;
+        $success = true;
+        
         $ids = $request->session()->get('products');
         if ($ids) {
             $listProductsInCart = CodeTemplate::findMany(array_keys($ids));
@@ -95,18 +100,18 @@ class ShoppingController extends Controller
 
                 $codes = Code::where(['code_template_id' => $product->getId(), 'used' => 0])->take($item->getQuantity())->get();
                 if (count($codes) < $item->getQuantity()) {
-                    $item->delete();
-                    $order->delete();
-
-                    return redirect()->route('cart.index')->withErrors([__('messages.insufficient_stock')]);
+                    $success = false;
+                    break;
                 }
+
+                //$order_codes = array_merge($order_codes, $codes->toArray());        
+                $item->setSubTotal($product->getValue() * $item->getQuantity());
+
                 foreach ($codes as $code) {
                     $code->setItemId($item->getId());
                     $code->setUsed(1);
-                    $code->save();
+                    array_push($order_codes, $code);
                 }
-                $item->setSubTotal($product->getValue() * $item->getQuantity());
-
                 $item->save();
                 $total = $total + $item->getSubTotal();
             }
@@ -121,16 +126,20 @@ class ShoppingController extends Controller
             return redirect()->route('cart.index')->withErrors([__('messages.no_items_in_cart')]);
         }
 
-        
+        if(!$success){
+            Item::where('order_id','=',$order->getId())->delete();
+            return redirect()->route('cart.index')->withErrors([__('messages.insufficient_stock')]);
+        }
 
         $paymentData = [];
-        
+
         $paymentData["uuid"] = Str::uuid()->toString();
         $paymentData["user_id"] = Auth::user()->id;
         $paymentData["order_id"] = $order->getId();
         $paymentData["amount"] = $total;
         $paymentData["payment_type"] = "order";
         $paymentData["callback"] = view('cart.buy')->with('data', $data);
+        $paymentData["comming_from"] = "ShoppingCar";
 
         $post = new PostCaller(
             PayHistoryController::class,
@@ -138,12 +147,21 @@ class ShoppingController extends Controller
             Request::class,
             $paymentData
         );
-        
+
         $response = $post->call();
-        $request->session()->forget('products'); 
 
-        return $response;
-
+        if ($response["success"]){
+            foreach ($order_codes as $code){
+                $code->save();
+                $request->session()->forget('products'); 
+            }
+        }else{
+            Item::where('order_id','=',$order->getId())->delete();
+        }
+           
+        return $response["redirect"];
 
     }
+
+
 }
