@@ -15,7 +15,10 @@ return [
     'see_templates' => 'See code templates in shop',
     'please_log_in' => 'Please log in to continue',
     'no_permission' => 'You do not have permission to view this.',
+    'no_funds' => 'Not enough funds for this operation.',
+    'inusfficient_payment_data' => 'Payment data is not correct',
     'insufficient_stock' => 'We currently do not have enough codes to supply your order, we are sorry.',
+    'create_payment' => 'Finish purchase',
     'confirmation' => 'Are you sure?',
     'cannot_undo' => 'This action cannot be undone',
 ];

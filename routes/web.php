@@ -44,3 +44,13 @@ Route::group(['prefix' => 'cart'], function () {
     Route::get('/removeAll', 'App\Http\Controllers\ShoppingController@removeAll')->name('cart.removeAll');
     Route::get('/buy', 'App\Http\Controllers\ShoppingController@buy')->name('cart.buy');
 });
+
+Route::group(['prefix' => 'payment'], function () {
+    Route::post('/buy', 'App\Http\Controllers\PayHistoryController@createPayment')->name('payhistory.create');
+    Route::post('/finish', 'App\Http\Controllers\PayHistoryController@finishPayment')->name('payhistory.finish');
+});
+
+Route::group(['prefix' => 'user'], function () {
+    
+});
+
