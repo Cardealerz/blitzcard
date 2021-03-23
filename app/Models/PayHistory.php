@@ -158,4 +158,24 @@ class PayHistory extends Model{
     public function user(){
         return $this->belongsTo(User::class);
     }
+
+
+    public function codes(){
+        $items = Item::where('order_id', '=', $this->getOrderId())->get();
+        $codes = array();
+
+        foreach($items as $item){
+            $codeInfo = [];
+
+            $code = Code::where('item_id', '=', $item->getId())->get()->first();
+            $codeInfo["code"] = $code->getCode();
+
+            $codeTemplate = CodeTemplate::where('id', '=', $code->getCodeTemplateId())->get()->first();
+            $codeInfo["name"] = $codeTemplate->getName();
+            
+            array_push($codes, $codeInfo);
+        }
+        return $codes;
+    }
+
 }

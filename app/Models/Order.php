@@ -29,6 +29,16 @@ class Order extends Model
         $this->attributes['user_id'] = $user_id;
     }
 
+    public function getPayHistoryId()
+    {
+        return $this->attributes['payhistory_id'];
+    }
+
+    public function setPayHistoryId($payHistory_id)
+    {
+        $this->attributes['payhistory_id'] = $payHistory_id;
+    }
+
     public function getTotal()
     {
         return $this->attributes['total'];

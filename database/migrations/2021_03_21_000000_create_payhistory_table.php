@@ -24,8 +24,9 @@ class CreatePayHistoryTable extends Migration{
             $table->enum('payment_type',['order','wallet']);
             $table->timestamp('payment_date');
             $table->timestamps();
-        });
+        });       
     }
+
 
     /**
      * Reverse the migrations.
