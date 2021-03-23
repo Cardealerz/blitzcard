@@ -86,19 +86,19 @@ class PayHistory extends Model{
         return $this->attributes['uuid'];
     }
 
-    public function setUserId($userID){
+    public function setUserID($userID){
         $this->attributes['user_id'] = $userID;
     }
 
-    public function getUserId(){
+    public function getUserID(){
         return $this->attributes['user_id'];
     }
 
-    public function setOrderId($orderID){
+    public function setOrderID($orderID){
         $this->attributes['order_id'] = $orderID;
     }
 
-    public function getOrderId(){
+    public function getOrderID(){
         return $this->attributes['order_id'];
     }
 
@@ -159,6 +159,7 @@ class PayHistory extends Model{
         return $this->belongsTo(User::class);
     }
 
+
     public function codes(){
         $items = Item::where('order_id', '=', $this->getOrderId())->get();
         $codes = array();
@@ -176,4 +177,5 @@ class PayHistory extends Model{
         }
         return $codes;
     }
+
 }

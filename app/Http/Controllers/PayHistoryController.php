@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use DB;
 use PDF;
 
+
 class PayHistoryController extends Controller{
 
     public function createPayment(Request $request){
@@ -103,7 +104,6 @@ class PayHistoryController extends Controller{
         $user_id = Auth::user()->id;
         
         $user = User::findOrFail($user_id);
-
         if($paymentData["payment_type"] == "order"){
             if ($user->SubtractFunds($paymentData['amount'])){
                 $payment->setPaymentStatus("accepted");
@@ -123,13 +123,13 @@ class PayHistoryController extends Controller{
             $payment->save();
             
         }
-        
+
         $responseData["redirect"] = $request["callback"];
         $responseData["success"] = true;  
-        
         return PayHistoryController::responseFor($request->all(), $responseData);
 
     }
+
 
     public function showAll(){
         if (! Auth::check()) {
@@ -170,7 +170,6 @@ class PayHistoryController extends Controller{
         return $pdf->download($fileName);
     }
 
-
     private static function responseFor($requestData, $responseData){
         if (array_key_exists('comming_from', $requestData)){
             return $responseData;
@@ -178,7 +177,5 @@ class PayHistoryController extends Controller{
             return $responseData["redirect"];
         }
     }
-
-
-   
+ 
 }

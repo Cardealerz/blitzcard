@@ -41,5 +41,4 @@ return [
     'name' => 'Name',
     'payment_method' => 'Payment Method',
     'order' => 'Order #'
-    
 ];

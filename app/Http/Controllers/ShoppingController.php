@@ -139,10 +139,6 @@ class ShoppingController extends Controller
         $paymentData["payment_type"] = "order";
         $paymentData["callback"] = view('cart.buy')->with('data', $data);
         $paymentData["comming_from"] = "ShoppingCar";
-        $paymentData["comming_from"] = "ShoppingCar";
-        
-
-        
 
         $post = new PostCaller(
             PayHistoryController::class,
@@ -155,7 +151,6 @@ class ShoppingController extends Controller
 
         $order->setPayHistoryId($response["payment_id"]);
         $order->save();
-        
 
         if ($response["success"]){
             foreach ($order_codes as $code){
