@@ -156,8 +156,18 @@ class PayHistoryController extends Controller{
     }
 
     public function createPDF($payment_id){
+        if (! Auth::check()) {
+            return redirect()->route('cart.index')->withErrors([__('messages.no_permission')]);
+        }
+
+        $payHistory = [];
+        $payHistory = PayHistory::findOrFail($payment_id);
         
-        return view('payHistory.pdfview');
+        view()->share('payHistory',$payHistory);
+        $pdf = PDF::loadView('payHistory.pdfview');
+
+        $fileName ='invoice '.$payHistory->getUuid() . ' ' . '.pdf';
+        return $pdf->download($fileName);
     }
 
 

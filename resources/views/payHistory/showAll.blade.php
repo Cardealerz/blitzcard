@@ -31,7 +31,7 @@
                     @endif
                     
                     <a href="{{ route('payhistory.showOne',['payment_id' => $payHistory->getId()]) }}" class="btn btn-secondary float-right ">{{__('labels.view_details')}}</a>
-                    <a href="" class="btn btn-primary float-right mr-1">{{__('labels.create_pdf')}}</a>                  
+                    <a href="{{ route('payhistory.createPDF',['payment_id' => $payHistory->getId()]) }}" class="btn btn-primary float-right mr-1">{{__('labels.create_pdf')}}</a>                  
                 </div>
             </div> 
             @empty

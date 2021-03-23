@@ -49,7 +49,7 @@ Route::group(['prefix' => 'payment'], function () {
     Route::post('/buy', 'App\Http\Controllers\PayHistoryController@createPayment')->name('payhistory.create');
     Route::post('/finish', 'App\Http\Controllers\PayHistoryController@finishPayment')->name('payhistory.finish');
     Route::get('/{payment_id}', 'App\Http\Controllers\PayHistoryController@showOne')->name('payhistory.showOne');
-    Route::get('/{payment_id}', 'App\Http\Controllers\PayHistoryController@createPDF')->name('payhistory.createPDF');
+    Route::get('/pdf/{payment_id}', 'App\Http\Controllers\PayHistoryController@createPDF')->name('payhistory.createPDF');
 });
 
 Route::group(['prefix' => 'user'], function () {
@@ -57,4 +57,3 @@ Route::group(['prefix' => 'user'], function () {
         Route::get('/', 'App\Http\Controllers\PayHistoryController@showAll')->name('payhistory.showAll');
     });
 });
-
