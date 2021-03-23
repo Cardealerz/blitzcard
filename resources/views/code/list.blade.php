@@ -15,9 +15,9 @@
                 </div>
             </div>
             @empty
-            <b>{{__('messages.no_codes')}}</b>
+            <b>{{__('messages.no_codes')}}</b><br />
             @endforelse
-            <a href="{{route('home.index')}}" class="btn btn-primary">{{__('labels.back_home')}}</a><br /><br />
+            <a href="{{route('home.index')}}" class="btn btn-primary">{{__('labels.back_home')}}</a><br />
         </div>
     </div>
 </div>

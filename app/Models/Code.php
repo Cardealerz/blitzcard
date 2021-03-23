@@ -16,7 +16,7 @@ class Code extends Model
     {
         $request->validate([
             'code_template_id' => 'required',
-            'code' => ['required','unique:codes', 'regex:/[A-Z0-9]{4,8}(-[A-Z0-9]{4,8}){2,8}/'],
+            'code' => ['required', 'unique:codes', 'regex:/[A-Z0-9]{4,8}(-[A-Z0-9]{4,8}){2,8}/'],
         ]);
     }
 

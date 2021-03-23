@@ -9,6 +9,7 @@ return [
     'no_code_templates' => 'There are no code templates to see',
     'no_codes' => 'There are no codes to see',
     'thanks' => 'Thank you for your purchase!',
+    'purchase_error' => 'We could not complete your purchase',
     'empty_cart' => 'The cart is empty.',
     'no_items_in_cart' => 'No items in cart',
     'see_shop' => 'See codes in shop',
@@ -21,5 +22,5 @@ return [
     'create_payment' => 'Finish purchase',
     'confirmation' => 'Are you sure?',
     'cannot_undo' => 'This action cannot be undone',
-    'no_payments' => 'You have not bought anything yet'
+    'no_payments' => 'You have not bought anything yet',
 ];

@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\PostCaller;
+use App\Mail\PaymentMail;
 use App\Models\Code;
 use App\Models\CodeTemplate;
 use App\Models\Item;
 use App\Models\Order;
-use App\Http\PostCaller;
+use App\Models\PayHistory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Mail;
 
 class ShoppingController extends Controller
 {
@@ -82,11 +85,11 @@ class ShoppingController extends Controller
         $order->setUserId(Auth::user()->id);
         $order->setTotal(0);
         $order->save();
-        
-        $order_codes = array();
+
+        $order_codes = [];
         $total = 0;
         $success = true;
-        
+
         $ids = $request->session()->get('products');
         if ($ids) {
             $listProductsInCart = CodeTemplate::findMany(array_keys($ids));
@@ -104,7 +107,7 @@ class ShoppingController extends Controller
                     break;
                 }
 
-                //$order_codes = array_merge($order_codes, $codes->toArray());        
+                //$order_codes = array_merge($order_codes, $codes->toArray());
                 $item->setSubTotal($product->getValue() * $item->getQuantity());
 
                 foreach ($codes as $code) {
@@ -122,23 +125,25 @@ class ShoppingController extends Controller
             $order->save();
         } else {
             $order->delete();
+
             return redirect()->route('cart.index')->withErrors([__('messages.no_items_in_cart')]);
         }
 
-        if(!$success){
-            Item::where('order_id','=',$order->getId())->delete();
+        if (! $success) {
+            Item::where('order_id', '=', $order->getId())->delete();
+
             return redirect()->route('cart.index')->withErrors([__('messages.insufficient_stock')]);
         }
 
         $paymentData = [];
 
-        $paymentData["uuid"] = Str::uuid()->toString();
-        $paymentData["user_id"] = Auth::user()->id;
-        $paymentData["order_id"] = $order->getId();
-        $paymentData["amount"] = $total;
-        $paymentData["payment_type"] = "order";
-        $paymentData["callback"] = view('cart.buy')->with('data', $data);
-        $paymentData["comming_from"] = "ShoppingCar";
+        $paymentData['uuid'] = Str::uuid()->toString();
+        $paymentData['user_id'] = Auth::user()->id;
+        $paymentData['order_id'] = $order->getId();
+        $paymentData['amount'] = $total;
+        $paymentData['payment_type'] = 'order';
+        $paymentData['callback'] = view('cart.buy')->with('data', $data);
+        $paymentData['comming_from'] = 'ShoppingCar';
 
         $post = new PostCaller(
             PayHistoryController::class,
@@ -146,24 +151,21 @@ class ShoppingController extends Controller
             Request::class,
             $paymentData
         );
-
         $response = $post->call();
-
-        $order->setPayHistoryId($response["payment_id"]);
+        $order->setPayHistoryId($response['payment_id']);
         $order->save();
 
-        if ($response["success"]){
-            foreach ($order_codes as $code){
+        if ($response['success']) {
+            foreach ($order_codes as $code) {
                 $code->save();
-                $request->session()->forget('products'); 
+                $request->session()->forget('products');
+                Mail::to(Auth::user()->email)->send(new PaymentMail(PayHistory::find($response['payment_id']), __('messages.thanks')));
             }
-        }else{
-            Item::where('order_id','=',$order->getId())->delete();
+        } else {
+            Item::where('order_id', '=', $order->getId())->delete();
+            Mail::to(Auth::user()->email)->send(new PaymentMail(PayHistory::find($response['payment_id']), __('messages.purchase_error')));
         }
-           
-        return $response["redirect"];
 
+        return $response['redirect'];
     }
-
-
 }

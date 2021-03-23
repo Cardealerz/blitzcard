@@ -33,12 +33,12 @@ return [
     'add_new_code' => 'Add a new code',
     'status' => 'Status',
     'cancel' => 'Cancel',
-    'billing_address' => "Billing Address",
+    'billing_address' => 'Billing Address',
     'payment_uuid' => 'Payment #',
     'date' => 'Date',
     'amount' => 'Amount',
     'create_pdf' => 'Download PDF',
     'name' => 'Name',
     'payment_method' => 'Payment Method',
-    'order' => 'Order #'
+    'order' => 'Order #',
 ];
