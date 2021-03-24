@@ -6,9 +6,9 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <table class="table table-striped table-bordered">
+            <table class="table table-bordered">
                 <thead>
-                    <tr>
+                    <tr class="table-active">
                         <th scope="col">{{__('labels.id')}}</th>
                         <th scope="col">{{__('labels.platform')}}</th>
                         <th scope="col">{{__('labels.available')}}</th>

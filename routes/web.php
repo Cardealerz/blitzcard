@@ -33,6 +33,7 @@ Route::group(['prefix' => 'codeTemplate'], function () {
 //Code routes for general use
 Route::group(['prefix' => 'code'], function () {
     Route::get('/list', 'App\Http\Controllers\CodeTemplateController@list')->name('code.list');
+    Route::get('/random', 'App\Http\Controllers\CodeTemplateController@random')->name('code.random');
     Route::get('/details/{id}', 'App\Http\Controllers\CodeTemplateController@details')->name('code.details');
 });
 

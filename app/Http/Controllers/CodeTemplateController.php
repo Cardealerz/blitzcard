@@ -111,4 +111,18 @@ class CodeTemplateController extends Controller
 
         return redirect()->route('home.index')->with('success', __('messages.delete_success'));
     }
+
+    public function random()
+    {
+        //CodeTemplate::inRandomOrder()->first();
+        $codeTemplate = CodeTemplate::whereHas('codes', function ($query) {
+            $query->where('used', 0);
+        })->inRandomOrder()->first();
+
+        if ($codeTemplate != null) {
+            return redirect()->route('code.details', [$codeTemplate->getId()]);
+        } else {
+            return redirect()->route('home.index')->withErrors([__('messages.no_codes')]);
+        }
+    }
 }

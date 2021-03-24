@@ -124,11 +124,11 @@ return [
     'payhistory_orderid' => 'Valid order is required for this PayHistory',
     'payhistory_payment_type' => [
         'not_exists' => 'Payment Type is required for a new PayHistory',
-        'invalid' => 'Payment Type must be order or wallet'
+        'invalid' => 'Payment Type must be order or wallet',
     ],
     'payhistory_amount' => [
         'not_exists' => 'Amount is required for a new PayHistory',
-        'invalid' => 'Amount must be greater than 0'
+        'invalid' => 'Amount must be greater than 0',
     ],
     'payhistory_billing_address' => 'Billing Address is required for a new PayHistory',
     'payhistory_payment_method' => 'Payment Method is required for a new PayHistory',

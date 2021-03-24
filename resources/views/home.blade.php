@@ -32,6 +32,7 @@
 
                     {{ __('messages.welcome').", ". Auth::user()->name }}<br />
                     <a href="{{ route('code.list') }}" class="btn btn-primary">{{__('messages.see_shop')}}</a>
+                    <a href="{{ route('code.random') }}" class="btn btn-primary">{{__('labels.lucky')}}</a>
                     @if(Auth::user()->role == "admin")
                     <a href="{{ route('codeTemplate.list') }}" class="btn btn-primary">{{__('messages.see_templates')}}</a>
                     @endif

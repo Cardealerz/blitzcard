@@ -19,7 +19,7 @@
             @if (count($data["productsInCart"]) > 0)
             <table class="table table-bordered">
                 <thead>
-                    <tr>
+                    <tr class="table-primary">
                         <th scope="col">{{__('labels.product')}}</th>
                         <th scope="col">{{__('labels.value')}}</th>
                         <th scope="col">{{__('labels.quantity')}}</th>
@@ -33,7 +33,7 @@
                         <td>${{$product->getValue()}}</td>
                         <td>{{$data["quantities"][$product->getId()]}}</td>
                         <td>${{$data["quantities"][$product->getId()]*$product->getValue()}}</td>
-                        <td><a href="{{ route('cart.removeItem', ['id' => $product->getId()]) }}" class="btn btn-outline-danger">&#10060;</a></td>
+                        <td style="width:1%"><a href="{{ route('cart.removeItem', ['id' => $product->getId()]) }}" class="btn btn-outline-danger">&#10060;</a></td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -45,7 +45,7 @@
             <br />
             <h5>{{__('labels.total_price')}}: ${{$data["total"]}}</h5>
             <a href="{{ route('cart.buy') }}" class="btn btn-primary  btn-lg mb-1">{{__('labels.buy')}}</a><br />
-            <a href="{{ route('code.list') }}" class="btn btn-outline-secondary  btn">{{__('labels.continue_shopping')}}</a>
+            <a href="{{ route('code.list') }}" class="btn btn-secondary  btn">{{__('labels.continue_shopping')}}</a>
         </div>
     </div>
 </div>

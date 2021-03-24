@@ -3,7 +3,7 @@
 namespace App\Http;
 
 class PostCaller
-{ 
+{
     /**
      * $class is the class where the method you will be calling is located.
      */
@@ -15,7 +15,7 @@ class PostCaller
     public $method;
 
     /**
-     * $requestClass is the type of Request. You can use custom requests 
+     * $requestClass is the type of Request. You can use custom requests
      * and don't have to use Illuminate\Http\Request.
      */
     public $requestClass;
