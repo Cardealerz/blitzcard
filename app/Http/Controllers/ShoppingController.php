@@ -159,8 +159,8 @@ class ShoppingController extends Controller
             foreach ($order_codes as $code) {
                 $code->save();
                 $request->session()->forget('products');
-                Mail::to(Auth::user()->email)->send(new PaymentMail(PayHistory::find($response['payment_id']), __('messages.thanks')));
             }
+            Mail::to(Auth::user()->email)->send(new PaymentMail(PayHistory::find($response['payment_id']), __('messages.thanks')));
         } else {
             Item::where('order_id', '=', $order->getId())->delete();
             Mail::to(Auth::user()->email)->send(new PaymentMail(PayHistory::find($response['payment_id']), __('messages.purchase_error')));

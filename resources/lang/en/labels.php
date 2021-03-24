@@ -41,4 +41,5 @@ return [
     'name' => 'Name',
     'payment_method' => 'Payment Method',
     'order' => 'Order #',
+    'lucky' => 'I\'m feeling lucky',
 ];
