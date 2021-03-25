@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>@yield('title',config('app.name'))</title>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
@@ -19,6 +19,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/bootstrap.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/all.css') }}" rel="stylesheet">
 </head>
 
 <body>
@@ -38,38 +39,53 @@
 
                     </ul>
 
+                    <ul class="navbar-nav mr-auto ml-auto">
+                        <li class="nav-item">
+                            <div class="justify-content-md-center">
+                                <form class="form-inline my-2 my-lg-0" action="{{ route('code.search') }}">
+                                    <input class="form-control mr-sm-2" name="param" id="param" type="text" placeholder="{{__('labels.search')}}">
+                                    <button class="btn btn-light my-2 my-sm-0" type="submit"><i class="fas fa-search"></i></button>
+                                </form>
+                            </div>
+                        </li>
+                    </ul>
+
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('cart.index') }}">{{ __('labels.cart') }}</a>
+                            <a class="nav-link" href="{{ route('cart.index') }}"><i class="fas fa-shopping-cart"></i> {{ __('labels.cart') }}</a>
                         </li>
                         <!-- Authentication Links -->
                         @guest
                         @if (Route::has('login'))
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                            <a class="nav-link" href="{{ route('login') }}"><i class="fas fa-sign-in-alt"></i> {{ __('Login') }}</a>
                         </li>
                         @endif
 
                         @if (Route::has('register'))
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                            <a class="nav-link" href="{{ route('register') }}"><i class="fas fa-user-plus"></i> {{ __('Register') }}</a>
                         </li>
                         @endif
                         @else
 
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                {{ Auth::user()->name. " - $".  Auth::user()->funds}}
+                                <i class="fas fa-user"></i> {{ Auth::user()->name. " - $".  Auth::user()->funds}}
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="#">
-                                    {{ __('labels.add_funds') }}
+                                <a class="dropdown-item" href="{{ route('payhistory.showAll') }}">
+                                    <i class="fas fa-history"></i> {{ __('labels.pay_history') }}
                                 </a>
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-plus-circle"></i> {{ __('labels.add_funds') }}
+                                </a>
+
                                 <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                    {{ __('Logout') }}
+                                    <i class="fas fa-sign-out-alt"></i> {{ __('Logout') }}
                                 </a>
 
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">

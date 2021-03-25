@@ -23,4 +23,5 @@ return [
     'confirmation' => 'Are you sure?',
     'cannot_undo' => 'This action cannot be undone',
     'no_payments' => 'You have not bought anything yet',
+    'viewing_results' => 'Viewing results for: ',
 ];

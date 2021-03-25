@@ -31,10 +31,11 @@
                     @endif
 
                     {{ __('messages.welcome').", ". Auth::user()->name }}<br />
-                    <a href="{{ route('code.list') }}" class="btn btn-primary">{{__('messages.see_shop')}}</a>
-                    <a href="{{ route('code.random') }}" class="btn btn-primary">{{__('labels.lucky')}}</a>
+                    <a href="{{ route('code.list') }}" class="btn btn-primary btn-lg mt-2 mb-2"><i class="fas fa-store"></i> {{__('messages.see_shop')}}</a>
+                    <a href="{{ route('code.random') }}" class="btn btn-primary btn-lg mt-2 mb-2"><i class="fas fa-question"></i> {{__('labels.lucky')}}</a><br />
                     @if(Auth::user()->role == "admin")
-                    <a href="{{ route('codeTemplate.list') }}" class="btn btn-primary">{{__('messages.see_templates')}}</a>
+                    <i class="fas fa-users-cog"></i>{{__('labels.admin_zone')}}<br />
+                    <a href="{{ route('codeTemplate.list') }}" class="btn btn-info btn-lg mt-2 mb-2"><i class="fas fa-tools"></i> {{__('messages.see_templates')}}</a>
                     @endif
                 </div>
             </div>
