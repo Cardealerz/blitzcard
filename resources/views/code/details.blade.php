@@ -27,7 +27,7 @@
                             </div>
                         </div>
                     </form>
-                    <a href="{{url()->previous()}}" class="btn btn-primary">{{__('labels.back')}}</a><br /><br />
+                    <a href="{{route('code.list')}}" class="btn btn-primary">{{__('labels.back')}}</a><br /><br />
 
                 </div>
             </div>
