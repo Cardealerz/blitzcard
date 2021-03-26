@@ -25,7 +25,6 @@
                     <b>{{__('labels.date')}}:</b> {{ $payHistory->getPaymentDate() }}<br />
                     @if ($payHistory->getPaymentType() == "order")
                     <b>{{__('labels.codes')}}: </b><br />
-
                     <table class="table table-bordered">
                         <thead>
                             <tr>
@@ -48,9 +47,7 @@
                     @else
                     <b>{{__('labels.payment_method')}}:</b> {{ $payHistory->getPaymentMethod() }}<br />
                     @endif
-
                     <a class="btn btn-primary" href="{{ route('payhistory.showAll') }}">{{__('labels.back')}}</a><br /><br />
-
                 </div>
             </div>
         </div>
