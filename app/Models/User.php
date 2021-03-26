@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -17,6 +16,9 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
+        'username',
+        'address',
+        // 'birthday',
         'name',
         'email',
         'password',
@@ -40,4 +42,106 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    // Attributes: id - username - address - birthday - name - email - role - funds
+
+    public function getId()
+    {
+        return $this->attributes['id'];
+    }
+
+    public function setId($id)
+    {
+        return $this->attributes['id'] = $id;
+    }
+
+    public function getUsername()
+    {
+        return $this->attributes['username'];
+    }
+
+    public function setUsername($username)
+    {
+        return $this->attributes['username'] = $username;
+    }
+
+    public function getAddress()
+    {
+        return $this->attributes['address'];
+    }
+
+    public function setAddress($address)
+    {
+        return $this->attributes['address'] = $address;
+    }
+
+    public function getBirthday()
+    {
+        return $this->attributes['birthday'];
+    }
+
+    public function setBirthday($birthday)
+    {
+        return $this->attributes['birthday'] = $birthday;
+    }
+
+    public function getName()
+    {
+        return $this->attributes['name'];
+    }
+
+    public function setName($name)
+    {
+        return $this->attributes['name'] = $name;
+    }
+
+    public function getEmail()
+    {
+        return $this->attributes['email'];
+    }
+
+    public function setEmail($email)
+    {
+        return $this->attributes['email'] = $email;
+    }
+
+    public function getRole()
+    {
+        return $this->attributes['role'];
+    }
+
+    public function setRole($role)
+    {
+        return $this->attributes['role'] = $role;
+    }
+
+    public function getFunds()
+    {
+        return $this->attributes['funds'];
+    }
+
+    public function setFunds($funds)
+    {
+        return $this->attributes['funds'] = $funds;
+    }
+
+    public function AddFunds($amount)
+    {
+        $current_funds = $this->getFunds();
+        $this->setFunds($current_funds + $amount);
+    }
+
+    public function SubtractFunds($amount)
+    {
+        $current_funds = $this->getFunds();
+        $new_funds = $current_funds - $amount;
+        if ($new_funds < 0) {
+            return false;
+        }
+
+        $this->setFunds($new_funds);
+        $this->save();
+
+        return true;
+    }
 }
