@@ -73,6 +73,6 @@ class CodeTemplate extends Model
 
     public function getName()
     {
-        return '$'.$this->attributes['value'].' '.$this->attributes['platform'].' '.$this->attributes['type'];
+        return '$' . $this->attributes['value'] . ' ' . $this->attributes['platform'] . ' ' . $this->attributes['type'];
     }
 }

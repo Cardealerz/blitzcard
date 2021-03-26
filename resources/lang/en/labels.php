@@ -31,6 +31,7 @@ return [
     'remove_item_cart' => 'Remove item from cart',
     'buy' => 'Buy',
     'add_new_code' => 'Add a new code',
+    'add_code_template' => 'Add a new code template',
     'status' => 'Status',
     'cancel' => 'Cancel',
     'billing_address' => 'Billing Address',
@@ -42,4 +43,10 @@ return [
     'payment_method' => 'Payment Method',
     'order' => 'Order #',
     'lucky' => 'I\'m feeling lucky',
+    'search' => 'Search',
+    'search_results' => 'Search results',
+    'all_codes' => 'All codes',
+    'all_code_templates' => 'All code templates',
+    'pay_history' => 'Payment history',
+    'admin_zone' => 'Admin zone',
 ];

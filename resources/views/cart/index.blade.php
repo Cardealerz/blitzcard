@@ -33,7 +33,7 @@
                         <td>${{$product->getValue()}}</td>
                         <td>{{$data["quantities"][$product->getId()]}}</td>
                         <td>${{$data["quantities"][$product->getId()]*$product->getValue()}}</td>
-                        <td style="width:1%"><a href="{{ route('cart.removeItem', ['id' => $product->getId()]) }}" class="btn btn-outline-danger">&#10060;</a></td>
+                        <td style="width:1%"><a href="{{ route('cart.removeItem', ['id' => $product->getId()]) }}" class="btn btn-outline-danger"><i class="fas fa-times"></i></a></td>
                     </tr>
                     @endforeach
                 </tbody>

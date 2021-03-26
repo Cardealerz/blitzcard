@@ -52,7 +52,7 @@
                                 <input type="text" class="form-control" name="code" value="{{old('value')}}" />
                             </div>
                             <div class="col-sm">
-                                <button type="submit" class="btn btn-primary" title="{{__('labels.add')}}"><strong>+</strong></button>
+                                <button type="submit" class="btn btn-primary" title="{{__('labels.add')}}"><i class="fas fa-plus"></i></button>
                             </div>
                         </div>
                     </form>

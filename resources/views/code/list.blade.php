@@ -6,6 +6,11 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
+            @if(isset($data["search"]))
+            <span class="align-bottom">
+                {{__('messages.viewing_results')}}<a href="{{route('code.list')}}" style="color: red"> {{$data["search"]}} <i class="fas fa-times"></i> </a>
+            </span>
+            @endif
             @forelse($data["codeTemplates"] as $codeTemplate)
             <div class="card mb-2">
                 <div class="card-body">

@@ -10,6 +10,22 @@ use Illuminate\Support\Facades\Auth;
 
 class CodeTemplateController extends Controller
 {
+    public function search(Request $request)
+    {
+        $param = $request->get('param');
+
+        $codeTemplates = CodeTemplate::orderBy('id', 'ASC')->withCount(['codes' => function ($query) use ($param) {
+            $query->where('used', 0);
+        }])->where('platform', 'LIKE', "%{$param}%")->orWhere('type', 'LIKE', "%{$param}%")->get();
+
+        $data = [];
+        $data['title'] = __('labels.search_results');
+        $data['codeTemplates'] = $codeTemplates;
+        $data['search'] = $param;
+
+        return view('code.list')->with('data', $data);
+    }
+
     public function details($id)
     {
         $codeTemplate = [];
@@ -27,7 +43,7 @@ class CodeTemplateController extends Controller
 
     public function details_admin($id)
     {
-        if (! Auth::check() || Auth::user()->role != 'admin') {
+        if (!Auth::check() || Auth::user()->role != 'admin') {
             return redirect()->route('home.index')->withErrors([__('messages.no_permission')]);
         }
 
@@ -44,7 +60,7 @@ class CodeTemplateController extends Controller
 
     public function list_admin()
     {
-        if (! Auth::check() || Auth::user()->role != 'admin') {
+        if (!Auth::check() || Auth::user()->role != 'admin') {
             return redirect()->route('home.index')->withErrors([__('messages.no_permission')]);
         }
 
@@ -53,7 +69,7 @@ class CodeTemplateController extends Controller
         }])->get();
 
         $data = [];
-        $data['title'] = 'All code templates';
+        $data['title'] = __('labels.all_code_templates');
         $data['codeTemplates'] = $codeTemplates;
 
         return view('codeTemplate.list')->with('data', $data);
@@ -66,7 +82,7 @@ class CodeTemplateController extends Controller
         })->get();
 
         $data = [];
-        $data['title'] = 'All codes';
+        $data['title'] = __('labels.all_codes');
         $data['codeTemplates'] = $codeTemplates;
 
         return view('code.list')->with('data', $data);
@@ -75,14 +91,14 @@ class CodeTemplateController extends Controller
     public function create()
     {
         $data = [];
-        $data['title'] = 'Add code template';
+        $data['title'] = __('labels.add_code_template');
 
         return view('codeTemplate.create')->with('data', $data);
     }
 
     public function save(Request $request)
     {
-        if (! Auth::check() || Auth::user()->role != 'admin') {
+        if (!Auth::check() || Auth::user()->role != 'admin') {
             return redirect()->route('home.index')->withErrors([__('messages.no_permission')]);
         }
         CodeTemplate::validate($request);
@@ -93,7 +109,7 @@ class CodeTemplateController extends Controller
 
     public function add_code(Request $request)
     {
-        if (! Auth::check() || Auth::user()->role != 'admin') {
+        if (!Auth::check() || Auth::user()->role != 'admin') {
             return redirect()->route('home.index')->withErrors([__('messages.no_permission')]);
         }
         Code::validate($request);
@@ -104,7 +120,7 @@ class CodeTemplateController extends Controller
 
     public function delete($id)
     {
-        if (! Auth::check() || Auth::user()->role != 'admin') {
+        if (!Auth::check() || Auth::user()->role != 'admin') {
             return redirect()->route('home.index')->withErrors([__('messages.no_permission')]);
         }
         CodeTemplate::find($id)->delete();
