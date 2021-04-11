@@ -25,28 +25,54 @@ class PayHistory extends Model{
             updated_at
     */
 
-    public static function validateFinishPaymentData(Request $request){
-        $request->validate([
-            "uuid" => "required",
-            "user_id" => "required",
-            "order_id" => "required",
-            "amount" => "required|gt:0",
-            "billing_address" => "required",
-            "payment_method" => "required",
-            "payment_type" => "required",
-            "callback" => "required"
-        ]);
+    public static function validateFinishPaymentData($paymentData){
+
+        if (!array_key_exists('uuid', $paymentData)){
+            throw new Exception('uuid is required for a new PayHistory');
+        }
+        if (!array_key_exists('user_id', $paymentData)){
+            throw new Exception('user_id is required for a new PayHistory');
+        }
+        if (!array_key_exists('order_id', $paymentData)){
+            throw new Exception('order_id is required for a new PayHistory');
+        }
+        if (!array_key_exists('amount', $paymentData)){
+            throw new Exception('amount is required for a new PayHistory');
+        }
+        if (!array_key_exists('billing_address', $paymentData)){
+            throw new Exception('billing_address is required for a new PayHistory');
+        }
+        if (!array_key_exists('payment_method', $paymentData)){
+            throw new Exception('payment_method is required for a new PayHistory');
+        }
+        if (!array_key_exists('payment_type', $paymentData)){
+            throw new Exception('payment_type is required for a new PayHistory');
+        }
+        if (!array_key_exists('callback', $paymentData)){
+            throw new Exception('callback is required for a new PayHistory');
+        }
     }
 
-    public static function validateCreatePaymentData(Request $request){
-        $request->validate([
-            "uuid" => "required",
-            "user_id" => "required",
-            "order_id" => "required",
-            "amount" => "required|gt:0",
-            "payment_type" => "required",
-            "callback" => "required"
-        ]);
+    public static function validateCreatePaymentData($paymentData){
+  
+        if (!array_key_exists('uuid', $paymentData)){
+            throw new Exception('uuid is required for a new PayHistory');
+        }
+        if (!array_key_exists('user_id', $paymentData)){
+            throw new Exception('user_id is required for a new PayHistory');
+        }
+        if (!array_key_exists('order_id', $paymentData)){
+            throw new Exception('order_id is required for a new PayHistory');
+        }
+        if (!array_key_exists('amount', $paymentData)){
+            throw new Exception('amount is required for a new PayHistory');
+        }
+        if (!array_key_exists('payment_type', $paymentData)){
+            throw new Exception('payment_type is required for a new PayHistory');
+        }
+        if (!array_key_exists('callback', $paymentData)){
+            throw new Exception('callback is required for a new PayHistory');
+        }
     }
 
     public static function validateOtherData($request_data){

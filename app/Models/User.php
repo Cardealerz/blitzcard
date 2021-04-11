@@ -136,7 +136,7 @@ class User extends Authenticatable
 
         $current_funds = $this->getFunds();
         $new_funds = $current_funds - $amount;
-        if ($new_funds <= 0){
+        if ($new_funds < 0){
             return false;
         }
 
