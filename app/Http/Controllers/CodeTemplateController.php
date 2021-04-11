@@ -8,10 +8,8 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class CodeTemplateController extends Controller
-{
-    public function details($id)
-    {
+class CodeTemplateController extends Controller{
+    public function details($id){
         $codeTemplate = [];
 
         try {
@@ -25,8 +23,7 @@ class CodeTemplateController extends Controller
         return view('code.details')->with('codeTemplate', $codeTemplate);
     }
 
-    public function details_admin($id)
-    {
+    public function details_admin($id){
         if (! Auth::check() || Auth::user()->role != 'admin') {
             return redirect()->route('home.index')->withErrors([__('messages.no_permission')]);
         }
@@ -42,13 +39,12 @@ class CodeTemplateController extends Controller
         return view('codeTemplate.details')->with('codeTemplate', $codeTemplate);
     }
 
-    public function list_admin()
-    {
+    public function list_admin(){
         if (! Auth::check() || Auth::user()->role != 'admin') {
             return redirect()->route('home.index')->withErrors([__('messages.no_permission')]);
         }
 
-        $codeTemplates = CodeTemplate::orderBy('id', 'ASC')->withCount(['codes' => function ($query) {
+        $codeTemplates = CodeTemplate::orderBy('id', 'ASC')->withCount(['codes' => function ($query){
             $query->where('used', 0);
         }])->get();
 
