@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\PostCaller;
-use App\Mail\PaymentMail;
 use App\Models\Code;
 use App\Models\CodeTemplate;
 use App\Models\Item;
 use App\Models\Order;
-use App\Models\PayHistory;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
-use Mail;
+use Illuminate\Http\Request;
+use App\Models\PayHistory;
+use Exception;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
+use Carbon\Carbon;
+
 
 class ShoppingController extends Controller
 {
@@ -86,7 +87,7 @@ class ShoppingController extends Controller
         $order->setTotal(0);
         $order->save();
 
-        $order_codes = [];
+        $order_codes = array();
         $total = 0;
         $success = true;
 
@@ -107,7 +108,7 @@ class ShoppingController extends Controller
                     break;
                 }
 
-                //$order_codes = array_merge($order_codes, $codes->toArray());
+                //$order_codes = array_merge($order_codes, $codes->toArray());        
                 $item->setSubTotal($product->getValue() * $item->getQuantity());
 
                 foreach ($codes as $code) {
@@ -125,47 +126,151 @@ class ShoppingController extends Controller
             $order->save();
         } else {
             $order->delete();
-
             return redirect()->route('cart.index')->withErrors([__('messages.no_items_in_cart')]);
         }
 
-        if (! $success) {
-            Item::where('order_id', '=', $order->getId())->delete();
-
+        if(!$success){
+            Item::where('order_id','=',$order->getId())->delete();
             return redirect()->route('cart.index')->withErrors([__('messages.insufficient_stock')]);
         }
 
         $paymentData = [];
 
-        $paymentData['uuid'] = Str::uuid()->toString();
-        $paymentData['user_id'] = Auth::user()->id;
-        $paymentData['order_id'] = $order->getId();
-        $paymentData['amount'] = $total;
-        $paymentData['payment_type'] = 'order';
-        $paymentData['callback'] = view('cart.buy')->with('data', $data);
-        $paymentData['comming_from'] = 'ShoppingCar';
+        $paymentData["uuid"] = Str::uuid()->toString();
+        $paymentData["user_id"] = Auth::user()->id;
+        $paymentData["order_id"] = $order->getId();
+        $paymentData["amount"] = $total;
+        $paymentData["payment_type"] = "order";
+        $paymentData["callback"] = view('cart.buy')->with('data', $data);
+        $paymentData["comming_from"] = "ShoppingCar";
 
-        $post = new PostCaller(
-            PayHistoryController::class,
-            'createPayment',
-            Request::class,
-            $paymentData
-        );
-        $response = $post->call();
-        $order->setPayHistoryId($response['payment_id']);
+        $response = ShoppingController::createPayment($paymentData);
+
+        $order->setPayHistoryId($response["payment_id"]);
         $order->save();
 
-        if ($response['success']) {
-            foreach ($order_codes as $code) {
+        if ($response["success"]){
+            foreach ($order_codes as $code){
                 $code->save();
-                $request->session()->forget('products');
+                $request->session()->forget('products'); 
             }
-            Mail::to(Auth::user()->email)->send(new PaymentMail(PayHistory::find($response['payment_id']), __('messages.thanks')));
-        } else {
-            Item::where('order_id', '=', $order->getId())->delete();
-            Mail::to(Auth::user()->email)->send(new PaymentMail(PayHistory::find($response['payment_id']), __('messages.purchase_error')));
+        }else{
+            Item::where('order_id','=',$order->getId())->delete();
         }
 
-        return $response['redirect'];
+        return $response["redirect"];
+
     }
+
+    public static function createPayment($paymentData){
+        $viewData = [];
+        $responseData = [];
+
+        if (! Auth::check()) {
+            $responseData["redirect"] = redirect()->route('cart.index')->withErrors([__('messages.no_permission')]);
+            $responseData["success"] = false;
+            return $responseData;
+        }
+
+        if (!array_key_exists('order_id', $paymentData)){
+            $paymentData["order_id"] = 0;
+        }
+
+        try{
+            PayHistory::validateCreatePaymentData($paymentData);
+        }catch(Exception $error){
+            $responseData["redirect"] = redirect()->route('cart.index')->withErrors($error->getMessage());
+            $responseData["success"] = false;    
+            return $responseData;
+        }
+
+
+        $viewData["title"] = "Payment Form";
+        $viewData["payment"] = $paymentData;
+
+
+        if($paymentData["payment_type"] == "order"){
+
+            $paymentData["payment_method"] = "Wallet";
+            $paymentData["billing_address"] = "ASdasjkdsadas";
+
+            $response = ShoppingController::finishPayment($paymentData);
+            return $response;
+
+        }else if ($paymentData["payment_type" == "wallet"]){
+
+            $responseData["redirect"] = view('payHistory.createPayment')->with('data', $viewData);
+            $responseData["success"] = true;
+
+            return $responseData;
+        }  
+
+        $responseData["redirect"] = redirect()->route('cart.index')->withErrors([__('messages.no_permission')]);
+        $responseData["success"] = false;
+
+        return $responseData;
+    }
+
+
+    public static function finishPayment($paymentData) {
+        $responseData = [];
+
+        if (! Auth::check()) {
+            $responseData["redirect"] = redirect()->route('cart.index')->withErrors([__('messages.no_permission')]);
+            $responseData["success"] = false;
+            return $responseData;
+        }
+
+        $currentTime = Carbon::now();
+        $paymentData["payment_date"] = $currentTime;
+
+        try{
+            PayHistory::validateFinishPaymentData($paymentData);
+        }catch(Exception $error){
+            $responseData["redirect"] = redirect()->route('cart.index')->withErrors($error->getMessage());
+            $responseData["success"] = false;    
+            return $responseData;
+        }
+
+        try{
+            PayHistory::validateOtherData($paymentData);
+        }catch(Exception $error){
+            $responseData["redirect"] = redirect()->route('cart.index')->withErrors($error->getMessage());
+            $responseData["success"] = false;    
+            return $responseData;
+        }
+
+        $payment = PayHistory::create($paymentData);
+        $responseData["payment_id"] = $payment->getId();  
+        $user_id = Auth::user()->id;
+
+        $user = User::findOrFail($user_id);
+
+        if($paymentData["payment_type"] == "order"){
+            if ($user->SubtractFunds($paymentData['amount'])){
+                $payment->setPaymentStatus("accepted");
+                $payment->save();
+            }else{
+                $payment->setPaymentStatus("failed");
+                $payment->save();
+
+                $responseData["redirect"] = redirect()->route('cart.index')->withErrors([__('messages.no_funds')]);
+                $responseData["success"] = false;    
+                return $responseData;
+            }
+        }else if ($paymentData["payment_type" == "wallet"]){
+            //check if paypal payment was approved
+            $user->AddFunds($paymentData['amount']);
+            $payment->setStatus("accepted");
+            $payment->save();
+
+        }
+
+        $responseData["redirect"] = $paymentData["callback"];
+        $responseData["success"] = true;  
+
+        return $responseData;
+
+    }
+
 }
