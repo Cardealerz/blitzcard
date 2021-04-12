@@ -6,8 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class User extends Authenticatable
-{
+class User extends Authenticatable {
     use HasFactory, Notifiable;
 
     /**
@@ -57,94 +56,76 @@ class User extends Authenticatable
             updated_at
     */
 
-    public function getId()
-    {
+    public function getId() {
         return $this->attributes['id'];
     }
 
-    public function setId($id)
-    {
+    public function setId($id) {
         return $this->attributes['id'] = $id;
     }
 
-    public function getUsername()
-    {
+    public function getUsername() {
         return $this->attributes['username'];
     }
 
-    public function setUsername($username)
-    {
+    public function setUsername($username) {
         return $this->attributes['username'] = $username;
     }
 
-    public function getAddress()
-    {
+    public function getAddress() {
         return $this->attributes['address'];
     }
 
-    public function setAddress($address)
-    {
+    public function setAddress($address) {
         return $this->attributes['address'] = $address;
     }
 
-    public function getBirthday()
-    {
+    public function getBirthday() {
         return $this->attributes['birthday'];
     }
 
-    public function setBirthday($birthday)
-    {
+    public function setBirthday($birthday) {
         return $this->attributes['birthday'] = $birthday;
     }
 
-    public function getName()
-    {
+    public function getName() {
         return $this->attributes['name'];
     }
 
-    public function setName($name)
-    {
+    public function setName($name) {
         return $this->attributes['name'] = $name;
     }
 
-    public function getEmail()
-    {
+    public function getEmail() {
         return $this->attributes['email'];
     }
 
-    public function setEmail($email)
-    {
+    public function setEmail($email) {
         return $this->attributes['email'] = $email;
     }
 
-    public function getRole()
-    {
+    public function getRole() {
         return $this->attributes['role'];
     }
 
-    public function setRole($role)
-    {
+    public function setRole($role) {
         return $this->attributes['role'] = $role;
     }
 
-    public function getFunds()
-    {
+    public function getFunds() {
         return $this->attributes['funds'];
     }
 
-    public function setFunds($funds)
-    {
+    public function setFunds($funds) {
         return $this->attributes['funds'] = $funds;
     }
 
-    public function addFunds($amount)
-    {
+    public function addFunds($amount) {
         $current_funds = $this->getFunds();
         $this->setFunds($current_funds + $amount);
     }
 
-    public function subtractFunds($amount)
-    {
+    public function subtractFunds($amount) {
         $current_funds = $this->getFunds();
         $new_funds = $current_funds - $amount;
         if ($new_funds < 0) {
@@ -157,13 +138,11 @@ class User extends Authenticatable
         return true;
     }
 
-    public function orders()
-    {
+    public function orders() {
         return $this->HasMany(Order::class);
     }
 
-    public function payments()
-    {
+    public function payments() {
         return $this->HasMany(PayHistory::class);
     }
 }

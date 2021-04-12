@@ -2,16 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Code;
 use App\Models\CodeTemplate;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
-class CodeTemplateController extends Controller
-{
-    public function search(Request $request)
-    {
+class CodeTemplateController extends Controller {
+    public function search(Request $request) {
         $param = $request->get('param');
 
         $codeTemplates = CodeTemplate::orderBy('id', 'ASC')->withCount(['codes' => function ($query) use ($param) {
@@ -26,8 +22,7 @@ class CodeTemplateController extends Controller
         return view('code.list')->with('data', $data);
     }
 
-    public function details($id)
-    {
+    public function details($id) {
         $codeTemplate = [];
 
         try {
@@ -41,8 +36,7 @@ class CodeTemplateController extends Controller
         return view('code.details')->with('codeTemplate', $codeTemplate);
     }
 
-    public function list()
-    {
+    public function list() {
         $codeTemplates = CodeTemplate::whereHas('codes', function ($query) {
             $query->where('used', 0);
         })->get();
@@ -54,8 +48,7 @@ class CodeTemplateController extends Controller
         return view('code.list')->with('data', $data);
     }
 
-    public function random()
-    {
+    public function random() {
         //CodeTemplate::inRandomOrder()->first();
         $codeTemplate = CodeTemplate::whereHas('codes', function ($query) {
             $query->where('used', 0);

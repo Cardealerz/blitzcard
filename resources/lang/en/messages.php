@@ -25,5 +25,5 @@ return [
     'no_payments' => 'You have not bought anything yet',
     'viewing_results' => 'Viewing results for: ',
     'update_success' => 'Updated successfully.',
-    'see_orders' => 'See all orders'
+    'see_orders' => 'See all orders',
 ];

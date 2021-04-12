@@ -55,5 +55,5 @@ return [
     'editing' => 'Editing code for: ',
     'edit' => 'Edit',
     'user' => 'User',
-    'all_orders' => 'All orders'
+    'all_orders' => 'All orders',
 ];
