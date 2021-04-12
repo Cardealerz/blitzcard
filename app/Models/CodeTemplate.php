@@ -9,7 +9,16 @@ class CodeTemplate extends Model
 {
     use HasFactory;
 
-    //Attributes: id, platform, value, type, created_at, updated_at
+    /*
+        Atributes:
+            id
+            platform: Platform to use the product in
+            value: Value of the product in USD
+            type: Type of product
+            created_at
+            updated_at
+    */
+
     protected $fillable = ['platform', 'value', 'type'];
 
     public static function validate($request)
@@ -61,17 +70,12 @@ class CodeTemplate extends Model
         $this->attributes['type'] = $type;
     }
 
-    public function items()
-    {
-        return $this->hasMany(Item::class);
-    }
-
     public function codes()
     {
         return $this->hasMany(Code::class);
     }
 
-    public function getName()
+    public function toString()
     {
         return '$' . $this->attributes['value'] . ' ' . $this->attributes['platform'] . ' ' . $this->attributes['type'];
     }

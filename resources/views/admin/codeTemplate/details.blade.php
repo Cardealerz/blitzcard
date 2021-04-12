@@ -27,6 +27,7 @@
                             <tr>
                                 <th scope="col">{{__('labels.code')}}</th>
                                 <th scope="col">{{__('labels.status')}}</th>
+                                <th scope="col">{{__('labels.edit')}}</th>
                             </tr>
                         </thead>
 
@@ -35,6 +36,7 @@
                             <tr>
                                 <td>{{$code->getCode()}}</td>
                                 <td>{{$code->getUsed() ? __('labels.used') : __('labels.unused')}}</td>
+                                <td><a href="{{ route('codeTemplate.update', ['code' => $code->getId()]) }}"><i class="fas fa-pen"></i></a></td>
                             </tr>
 
                             @empty
@@ -44,7 +46,7 @@
                     </table>
 
                     {{__('labels.add_new_code')}}
-                    <form method="POST" action="{{ route('codeTemplate.add_code') }}">
+                    <form method="POST" action="{{ route('codeTemplate.addCode') }}">
                         @csrf
                         <input type="hidden" class="form-control" name="code_template_id" value="{{$codeTemplate->getId()}}" />
                         <div class="row align-items-center mb-2">
@@ -56,6 +58,9 @@
                             </div>
                         </div>
                     </form>
+
+                    {{__('labels.rule_code')}}<br />
+                    {{__('labels.example')}}<br />
 
                     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
                         {{__('labels.delete')}}

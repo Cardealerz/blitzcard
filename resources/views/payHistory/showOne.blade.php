@@ -47,7 +47,7 @@
                     @else
                     <b>{{__('labels.payment_method')}}:</b> {{ $payHistory->getPaymentMethod() }}<br />
                     @endif
-                    <a class="btn btn-primary" href="{{ route('payhistory.showAll') }}">{{__('labels.back')}}</a><br /><br />
+                    <a class="btn btn-primary" href="{{ url()->previous() }}">{{__('labels.back')}}</a><br /><br />
                 </div>
             </div>
         </div>

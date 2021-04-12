@@ -19,7 +19,7 @@
                     @forelse($data["codeTemplates"] as $codeTemplate)
                     <tr>
                         <th scope="row">{{$codeTemplate->getId()}}</th>
-                        <td>{{$codeTemplate->getName()}}</td>
+                        <td>{{$codeTemplate->toString()}}</td>
                         <td>{{$codeTemplate->codes_count}}</button></td>
                         <td><a class="btn btn-primary" href="{{ route('codeTemplate.details',['id' => $codeTemplate->getId()]) }}">{{__('labels.details')}}</a></td>
                     </tr>

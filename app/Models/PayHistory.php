@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
-use Exception;
+use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\Request;
+use Exception;
 
 class PayHistory extends Model
 {
@@ -16,55 +16,82 @@ class PayHistory extends Model
             id
             uuid: Will be the name of a PayHistory element
             userID: Foreign key to an user
-            orderID: id of an order, is not a foreign key because it could be null
+            orderID: Id of an order, is not a foreign key because it could be null
             amount: Must be greather than 0
             billing_Address
             payment_type: It could be from buying an order or from charging to wallet
             payment_status: It could be accepted, pending, failed
             payment_method
-            created_at
+            created_at 
             updated_at
     */
 
-    public static function validateFinishPaymentData(Request $request)
+    public static function validateFinishPaymentData($paymentData)
     {
-        $request->validate([
-            'uuid' => 'required',
-            'user_id' => 'required',
-            'order_id' => 'required',
-            'amount' => 'required|gt:0',
-            'billing_address' => 'required',
-            'payment_method' => 'required',
-            'payment_type' => 'required',
-            'callback' => 'required',
-        ]);
+
+        if (!array_key_exists('uuid', $paymentData)) {
+            throw new Exception('uuid is required for a new PayHistory');
+        }
+        if (!array_key_exists('user_id', $paymentData)) {
+            throw new Exception('user_id is required for a new PayHistory');
+        }
+        if (!array_key_exists('order_id', $paymentData)) {
+            throw new Exception('order_id is required for a new PayHistory');
+        }
+        if (!array_key_exists('amount', $paymentData)) {
+            throw new Exception('amount is required for a new PayHistory');
+        }
+        if (!array_key_exists('billing_address', $paymentData)) {
+            throw new Exception('billing_address is required for a new PayHistory');
+        }
+        if (!array_key_exists('payment_method', $paymentData)) {
+            throw new Exception('payment_method is required for a new PayHistory');
+        }
+        if (!array_key_exists('payment_type', $paymentData)) {
+            throw new Exception('payment_type is required for a new PayHistory');
+        }
+        if (!array_key_exists('callback', $paymentData)) {
+            throw new Exception('callback is required for a new PayHistory');
+        }
     }
 
-    public static function validateCreatePaymentData(Request $request)
+    public static function validateCreatePaymentData($paymentData)
     {
-        $request->validate([
-            'uuid' => 'required',
-            'user_id' => 'required',
-            'order_id' => 'required',
-            'amount' => 'required|gt:0',
-            'payment_type' => 'required',
-            'callback' => 'required',
-        ]);
+
+        if (!array_key_exists('uuid', $paymentData)) {
+            throw new Exception('uuid is required for a new PayHistory');
+        }
+        if (!array_key_exists('user_id', $paymentData)) {
+            throw new Exception('user_id is required for a new PayHistory');
+        }
+        if (!array_key_exists('order_id', $paymentData)) {
+            throw new Exception('order_id is required for a new PayHistory');
+        }
+        if (!array_key_exists('amount', $paymentData)) {
+            throw new Exception('amount is required for a new PayHistory');
+        }
+        if (!array_key_exists('payment_type', $paymentData)) {
+            throw new Exception('payment_type is required for a new PayHistory');
+        }
+        if (!array_key_exists('callback', $paymentData)) {
+            throw new Exception('callback is required for a new PayHistory');
+        }
     }
 
     public static function validateOtherData($request_data)
     {
-        if (! array_key_exists('payment_date', $request_data)) {
+
+        if (!array_key_exists('payment_date', $request_data)) {
             throw new Exception('Payment Date is required for a new PayHistory');
         }
 
-        if (! array_key_exists('payment_type', $request_data)) {
+        if (!array_key_exists('payment_type', $request_data)) {
             throw new Exception('Payment Type is required for a new PayHistory');
         } else {
-            if ($request_data['payment_type'] != 'order' && $request_data['payment_type'] != 'wallet') {
+            if ($request_data['payment_type'] != "order" && $request_data['payment_type'] != "wallet") {
                 throw new Exception('Payment Type must be order or wallet');
             }
-            if ($request_data['payment_type'] == 'order' && ! array_key_exists('order_id', $request_data)) {
+            if ($request_data['payment_type'] == "order" && !array_key_exists('order_id', $request_data)) {
                 throw new Exception('Payment of an order must have an order id');
             }
         }
@@ -91,22 +118,22 @@ class PayHistory extends Model
         return $this->attributes['uuid'];
     }
 
-    public function setUserID($userID)
+    public function setUserId($userID)
     {
         $this->attributes['user_id'] = $userID;
     }
 
-    public function getUserID()
+    public function getUserId()
     {
         return $this->attributes['user_id'];
     }
 
-    public function setOrderID($orderID)
+    public function setOrderId($orderID)
     {
         $this->attributes['order_id'] = $orderID;
     }
 
-    public function getOrderID()
+    public function getOrderId()
     {
         return $this->attributes['order_id'];
     }
@@ -153,6 +180,7 @@ class PayHistory extends Model
 
     public function setPaymentStatus($paymentStatus)
     {
+
         $this->attributes['payment_status'] = $paymentStatus;
     }
 
@@ -176,28 +204,35 @@ class PayHistory extends Model
         $this->attributes['payment_type'] = $paymentType;
     }
 
+    public function codes()
+    {
+        $items = Item::where('order_id', '=', $this->getOrderId())->get();
+        $codes = array();
+
+        foreach ($items as $item) {
+            $codeInfo = [];
+
+            $itemCodes = Code::where('item_id', '=', $item->getId())->get();
+
+            foreach ($itemCodes as $code) {
+                $codeInfo["code"] = $code->getCode();
+
+                $codeTemplate = CodeTemplate::where('id', '=', $code->getCodeTemplateId())->get()->first();
+                $codeInfo["name"] = $codeTemplate->toString();
+
+                array_push($codes, $codeInfo);
+            }
+        }
+        return $codes;
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    public function codes()
+    public function order()
     {
-        $items = Item::where('order_id', '=', $this->getOrderId())->get();
-        $codes = [];
-
-        foreach ($items as $item) {
-            $codeInfo = [];
-
-            $code = Code::where('item_id', '=', $item->getId())->get()->first();
-            $codeInfo['code'] = $code->getCode();
-
-            $codeTemplate = CodeTemplate::where('id', '=', $code->getCodeTemplateId())->get()->first();
-            $codeInfo['name'] = $codeTemplate->getName();
-
-            array_push($codes, $codeInfo);
-        }
-
-        return $codes;
+        return $this->belongsTo(Order::class);
     }
 }

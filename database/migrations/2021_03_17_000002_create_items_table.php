@@ -17,8 +17,6 @@ class CreateItemsTable extends Migration
             $table->bigIncrements('id');
             $table->integer('quantity');
             $table->integer('subtotal');
-            $table->bigInteger('code_template_id')->unsigned();
-            $table->foreign('code_template_id')->references('id')->on('code_templates');
             $table->bigInteger('order_id')->unsigned();
             $table->foreign('order_id')->references('id')->on('orders');
             $table->timestamps();

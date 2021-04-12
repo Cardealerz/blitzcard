@@ -36,6 +36,8 @@
                     @if(Auth::user()->role == "admin")
                     <i class="fas fa-users-cog"></i>{{__('labels.admin_zone')}}<br />
                     <a href="{{ route('codeTemplate.list') }}" class="btn btn-info btn-lg mt-2 mb-2"><i class="fas fa-tools"></i> {{__('messages.see_templates')}}</a>
+                    <a href="{{ route('orders.list') }}" class="btn btn-info btn-lg mt-2 mb-2"><i class="fas fa-tools"></i> {{__('messages.see_orders')}}</a>
+
                     @endif
                 </div>
             </div>
