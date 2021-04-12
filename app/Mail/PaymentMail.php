@@ -7,8 +7,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class PaymentMail extends Mailable
-{
+class PaymentMail extends Mailable {
     use Queueable, SerializesModels;
 
     public $payHistory;
@@ -19,8 +18,7 @@ class PaymentMail extends Mailable
      *
      * @return void
      */
-    public function __construct(PayHistory $payHistory, $subject)
-    {
+    public function __construct(PayHistory $payHistory, $subject) {
         $this->payHistory = $payHistory;
         $this->subject = $subject;
     }
@@ -30,8 +28,7 @@ class PaymentMail extends Mailable
      *
      * @return $this
      */
-    public function build()
-    {
+    public function build() {
         return $this->subject($this->subject)->view('mails.payment_review');
     }
 }

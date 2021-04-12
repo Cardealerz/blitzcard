@@ -9,12 +9,9 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class AdminController extends Controller
-{
-
-    public function details($id)
-    {
-        if (!Auth::check() || Auth::user()->role != 'admin') {
+class AdminController extends Controller {
+    public function details($id) {
+        if (! Auth::check() || Auth::user()->role != 'admin') {
             return redirect()->route('home.index')->withErrors([__('messages.no_permission')]);
         }
 
@@ -29,9 +26,8 @@ class AdminController extends Controller
         return view('admin.codeTemplate.details')->with('codeTemplate', $codeTemplate);
     }
 
-    public function list()
-    {
-        if (!Auth::check() || Auth::user()->role != 'admin') {
+    public function list() {
+        if (! Auth::check() || Auth::user()->role != 'admin') {
             return redirect()->route('home.index')->withErrors([__('messages.no_permission')]);
         }
 
@@ -46,14 +42,13 @@ class AdminController extends Controller
         return view('admin.codeTemplate.list')->with('data', $data);
     }
 
-    public function listOrders()
-    {
-        if (!Auth::check() || Auth::user()->role != 'admin') {
+    public function listOrders() {
+        if (! Auth::check() || Auth::user()->role != 'admin') {
             return redirect()->route('home.index')->withErrors([__('messages.no_permission')]);
         }
 
         $data = [];
-        $data["title"] = __('labels.all_orders');
+        $data['title'] = __('labels.all_orders');
 
         $payHistory = PayHistory::where('payment_type', '=', 'order')->latest()->get();
         $data['orders'] = $payHistory;
@@ -61,9 +56,8 @@ class AdminController extends Controller
         return view('admin.orders.list')->with('data', $data);
     }
 
-    public function create()
-    {
-        if (!Auth::check() || Auth::user()->role != 'admin') {
+    public function create() {
+        if (! Auth::check() || Auth::user()->role != 'admin') {
             return redirect()->route('home.index')->withErrors([__('messages.no_permission')]);
         }
         $data = [];
@@ -72,9 +66,8 @@ class AdminController extends Controller
         return view('admin.codeTemplate.create')->with('data', $data);
     }
 
-    public function save(Request $request)
-    {
-        if (!Auth::check() || Auth::user()->role != 'admin') {
+    public function save(Request $request) {
+        if (! Auth::check() || Auth::user()->role != 'admin') {
             return redirect()->route('home.index')->withErrors([__('messages.no_permission')]);
         }
         CodeTemplate::validate($request);
@@ -83,9 +76,8 @@ class AdminController extends Controller
         return redirect()->route('home.index')->with('success', __('messages.add_success'));
     }
 
-    public function addCode(Request $request)
-    {
-        if (!Auth::check() || Auth::user()->role != 'admin') {
+    public function addCode(Request $request) {
+        if (! Auth::check() || Auth::user()->role != 'admin') {
             return redirect()->route('home.index')->withErrors([__('messages.no_permission')]);
         }
         Code::validate($request);
@@ -94,9 +86,8 @@ class AdminController extends Controller
         return back();
     }
 
-    public function update(Request $request)
-    {
-        if (!Auth::check() || Auth::user()->role != 'admin') {
+    public function update(Request $request) {
+        if (! Auth::check() || Auth::user()->role != 'admin') {
             return redirect()->route('home.index')->withErrors([__('messages.no_permission')]);
         }
         $code = $request->get('code');
@@ -107,9 +98,9 @@ class AdminController extends Controller
 
         return view('admin.codeTemplate.edit')->with('data', $data);
     }
-    public function saveUpdate(Request $request)
-    {
-        if (!Auth::check() || Auth::user()->role != 'admin') {
+
+    public function saveUpdate(Request $request) {
+        if (! Auth::check() || Auth::user()->role != 'admin') {
             return redirect()->route('home.index')->withErrors([__('messages.no_permission')]);
         }
 
@@ -126,11 +117,8 @@ class AdminController extends Controller
         return back()->with('success', __('messages.update_success'));
     }
 
-
-
-    public function delete($id)
-    {
-        if (!Auth::check() || Auth::user()->role != 'admin') {
+    public function delete($id) {
+        if (! Auth::check() || Auth::user()->role != 'admin') {
             return redirect()->route('home.index')->withErrors([__('messages.no_permission')]);
         }
         CodeTemplate::find($id)->delete();

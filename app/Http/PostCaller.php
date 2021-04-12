@@ -2,8 +2,7 @@
 
 namespace App\Http;
 
-class PostCaller
-{
+class PostCaller {
     /**
      * $class is the class where the method you will be calling is located.
      */
@@ -31,8 +30,7 @@ class PostCaller
      */
     public $requestSending;
 
-    public function __construct($class, $method, $requestClass, $data)
-    {
+    public function __construct($class, $method, $requestClass, $data) {
         //assign parameter values to class object
         $this->class = $class;
         $this->method = $method;
@@ -48,8 +46,7 @@ class PostCaller
      * Execute the method and return the response.
      * @return mixed
      */
-    public function call()
-    {
+    public function call() {
         $response = app($this->class)->{$this->method}($this->requestClass::createFromBase($this->requestSending));
 
         return $response;
