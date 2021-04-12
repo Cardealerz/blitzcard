@@ -49,4 +49,11 @@ return [
     'all_code_templates' => 'All code templates',
     'pay_history' => 'Payment history',
     'admin_zone' => 'Admin zone',
+    'example' => 'Example: ABCD-EFGH-JKLM',
+    'rule_code' => 'Must be 3 to 8 parts separated by a dash, each part consisting of 4 to 8 uppercase letters or numbers.',
+    'edit_code' => 'Edit code',
+    'editing' => 'Editing code for: ',
+    'edit' => 'Edit',
+    'user' => 'User',
+    'all_orders' => 'All orders'
 ];

@@ -43,7 +43,19 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    // Attributes: id - username - address - birthday - name - email - role - funds
+    /*
+        Atributes:
+            id
+            username: Name of the user
+            address: Home address of the user
+            birthday: User's birthday
+            name: User's name
+            email: User's email
+            role: User's role, defines clearance in the platform
+            funds: User's current available funds
+            created_at
+            updated_at
+    */
 
     public function getId()
     {
@@ -125,13 +137,13 @@ class User extends Authenticatable
         return $this->attributes['funds'] = $funds;
     }
 
-    public function AddFunds($amount)
+    public function addFunds($amount)
     {
         $current_funds = $this->getFunds();
         $this->setFunds($current_funds + $amount);
     }
 
-    public function SubtractFunds($amount)
+    public function subtractFunds($amount)
     {
         $current_funds = $this->getFunds();
         $new_funds = $current_funds - $amount;
@@ -143,5 +155,15 @@ class User extends Authenticatable
         $this->save();
 
         return true;
+    }
+
+    public function orders()
+    {
+        return $this->HasMany(Order::class);
+    }
+
+    public function payments()
+    {
+        return $this->HasMany(PayHistory::class);
     }
 }

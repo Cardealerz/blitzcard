@@ -24,4 +24,6 @@ return [
     'cannot_undo' => 'This action cannot be undone',
     'no_payments' => 'You have not bought anything yet',
     'viewing_results' => 'Viewing results for: ',
+    'update_success' => 'Updated successfully.',
+    'see_orders' => 'See all orders'
 ];

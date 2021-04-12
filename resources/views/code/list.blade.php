@@ -15,7 +15,7 @@
             <div class="card mb-2">
                 <div class="card-body">
                     <p class="card-text">
-                    <h4>{{$codeTemplate->getName()}}</h4>
+                    <h4>{{$codeTemplate->toString()}}</h4>
                     </p>
                     <a href="{{ route('code.details', ['id'=> $codeTemplate->getId()]) }}" class="btn btn-secondary float-right ">{{__('labels.view_details')}}</a>
                     <a href="{{ route('cart.addOne', ['id'=> $codeTemplate->getId()]) }}" class="btn btn-primary float-right mr-1">{{__('labels.add_cart')}}</a>

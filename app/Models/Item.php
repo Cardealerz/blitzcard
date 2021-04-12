@@ -6,7 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class Item extends Model
 {
-    //attributes id, subtotal, quantity, codeTemplate_id, order_id, created_at, updated_at
+    /*
+        Atributes:
+            id
+            subtotal: Subtotal of the item in USD
+            quantity: Quantity of codes in the item
+            order_id: Id of the associated order
+            created_at
+            updated_at
+    */
+
     protected $fillable = ['subtotal', 'quantity'];
 
     public function getId()
@@ -39,16 +48,6 @@ class Item extends Model
         $this->attributes['order_id'] = $order_id;
     }
 
-    public function getCodeTemplateId()
-    {
-        return $this->attributes['code_template_id'];
-    }
-
-    public function setCodeTemplateId($code_template_id)
-    {
-        $this->attributes['code_template_id'] = $code_template_id;
-    }
-
     public function getSubTotal()
     {
         return $this->attributes['subtotal'];
@@ -62,11 +61,6 @@ class Item extends Model
     public function order()
     {
         return $this->belongsTo(Order::class);
-    }
-
-    public function codeTemplate()
-    {
-        return $this->belongsTo(CodeTemplate::class);
     }
 
     public function codes()

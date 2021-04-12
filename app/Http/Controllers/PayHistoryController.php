@@ -1,14 +1,17 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\PayHistory;
 use Illuminate\Support\Facades\Auth;
 use PDF;
 
-class PayHistoryController extends Controller{
+class PayHistoryController extends Controller
+{
 
-        public function showAll(){
-        if (! Auth::check()) {
+    public function showAll()
+    {
+        if (!Auth::check()) {
             return redirect()->route('cart.index')->withErrors([__('messages.no_permission')]);
         }
 
@@ -20,8 +23,9 @@ class PayHistoryController extends Controller{
         return view('payHistory.showAll')->with('data', $data);
     }
 
-    public function showOne($payment_id){
-        if (! Auth::check()) {
+    public function showOne($payment_id)
+    {
+        if (!Auth::check()) {
             return redirect()->route('cart.index')->withErrors([__('messages.no_permission')]);
         }
 
@@ -31,19 +35,19 @@ class PayHistoryController extends Controller{
         return view('payHistory.showOne')->with('payHistory', $payHistory);
     }
 
-    public function createPDF($payment_id){
-        if (! Auth::check()) {
+    public function createPDF($payment_id)
+    {
+        if (!Auth::check()) {
             return redirect()->route('cart.index')->withErrors([__('messages.no_permission')]);
         }
 
         $payHistory = [];
         $payHistory = PayHistory::findOrFail($payment_id);
 
-        view()->share('payHistory',$payHistory);
+        view()->share('payHistory', $payHistory);
         $pdf = PDF::loadView('payHistory.pdfview');
 
-        $fileName ='invoice '.$payHistory->getUuid() . ' ' . '.pdf';
+        $fileName = 'invoice ' . $payHistory->getUuid() . ' ' . '.pdf';
         return $pdf->download($fileName);
     }
-
 }

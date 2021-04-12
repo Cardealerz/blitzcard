@@ -6,7 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
 {
-    //attributes id, user_id, total, created_at, updated_at
+    /*
+        Atributes:
+            id
+            user_id: Id of the associated user
+            total: Total price of order in USD
+            created_at
+            updated_at
+    */
+
     protected $fillable = ['total'];
 
     public function getId()
@@ -54,13 +62,13 @@ class Order extends Model
         return $this->hasMany(Item::class);
     }
 
-    public function codes()
-    {
-        return $this->hasMany(Code::class);
-    }
-
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function payment()
+    {
+        return $this->hasOne(PayHistory::class);
     }
 }
