@@ -4,6 +4,9 @@
 
 @section('content')
 <div class="container">
+
+    {{ Breadcrumbs::render('orders.list') }}
+
     <div class="row justify-content-center">
         <div class="col-md-8">
             @forelse($data["orders"] as $payHistory)

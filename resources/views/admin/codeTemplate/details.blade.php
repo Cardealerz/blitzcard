@@ -4,6 +4,9 @@
 
 @section('content')
 <div class="container">
+
+    {{ Breadcrumbs::render('codeTemplate.details', $codeTemplate) }}
+
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
