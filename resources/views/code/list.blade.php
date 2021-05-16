@@ -4,6 +4,9 @@
 
 @section('content')
 <div class="container">
+
+    {{ Breadcrumbs::render('code.list') }}
+
     <div class="row justify-content-center">
         <div class="col-md-8">
             @if(isset($data["search"]))

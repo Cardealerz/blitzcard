@@ -4,6 +4,9 @@
 
 @section('content')
 <div class="container">
+    
+    {{ Breadcrumbs::render('cart.index') }}
+
     @if($errors->any())
     <div class="alert alert-danger">
         <ul id="errors">
