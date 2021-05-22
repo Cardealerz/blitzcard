@@ -62,3 +62,7 @@ Route::group(['prefix' => 'user'], function () {
         Route::get('/', 'App\Http\Controllers\PayHistoryController@showAll')->name('payhistory.showAll');
     });
 });
+
+Route::group(['prefix' => 'api'], function () {
+    Route::get('/list', 'App\Http\Controllers\Api\CodeTemplateApi@list')->name('api.list');
+});

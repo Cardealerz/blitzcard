@@ -33,8 +33,6 @@ Breadcrumbs::for('orders.list', function ($trail) {
     $trail->push('Orders List', route('orders.list'));
 });
 
-
-
 // Cart
 
 // Home > Cart
@@ -49,7 +47,6 @@ Breadcrumbs::for('cart.buy', function ($trail) {
     $trail->push('Buy', route('cart.buy'));
 });
 
-
 // Code
 
 // Home > Codes
@@ -57,7 +54,6 @@ Breadcrumbs::for('code.list', function ($trail) {
     $trail->parent('home.index');
     $trail->push('Codes', route('code.list'));
 });
-
 
 // Home > Code details
 Breadcrumbs::for('code.details', function ($trail, $code) {
