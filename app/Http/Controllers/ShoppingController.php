@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Interfaces\Mailer;
 use App\Models\Code;
 use App\Models\CodeTemplate;
 use App\Models\Item;
@@ -142,13 +143,17 @@ class ShoppingController extends Controller {
         $order->setPayHistoryId($response['payment_id']);
         $order->save();
 
+        $mailer = app(Mailer::class);
+
         if ($response['success']) {
             foreach ($order_codes as $code) {
                 $code->save();
                 $request->session()->forget('products');
             }
+            $mailer->sendSuccess($response);
         } else {
             Item::where('order_id', '=', $order->getId())->delete();
+            $mailer->sendError($response);
         }
 
         return $response['redirect'];

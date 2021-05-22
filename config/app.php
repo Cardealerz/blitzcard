@@ -177,6 +177,9 @@ return [
         App\Providers\RouteServiceProvider::class,
         MattAllan\LaravelCodeStyle\ServiceProvider::class,
 
+        /* my providers */
+        App\Providers\MailServiceProvider::class,
+
     ],
 
     /*
