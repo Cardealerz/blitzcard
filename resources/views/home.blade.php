@@ -6,7 +6,7 @@
 <div class="container">
 
     {{ Breadcrumbs::render('home.index') }}
-    
+
     <div class="row justify-content-center">
         <div class="col-md-8">
 
@@ -45,6 +45,8 @@
 
                     @endif
                 </div>
+                <a href="{{ route('home.locale', ['locale'=> 'en']) }}" class="btn btn-secondary float-right ">ENGLISH</a>
+                <a href="{{ route('home.locale', ['locale'=> 'es']) }}" class="btn btn-secondary float-right ">SPANISH</a>
             </div>
         </div>
     </div>

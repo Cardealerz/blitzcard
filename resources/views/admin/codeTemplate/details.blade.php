@@ -63,13 +63,11 @@
                     </form>
 
                     {{__('labels.rule_code')}}<br />
-                    {{__('labels.example')}}<br />
+                    {{__('labels.example')}}<br /><br />
 
                     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
                         {{__('labels.delete')}}
-                    </button><br /><br />
-
-                    <a class="btn btn-primary" href="{{ route('codeTemplate.list') }}">{{__('labels.back')}}</a><br /><br />
+                    </button><br />
 
                     <!-- Delete confirmation modal -->
                     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

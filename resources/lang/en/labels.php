@@ -2,6 +2,7 @@
 
 return [
     'add' => 'Add',
+    'home' => 'Home',
     'add_cart' => 'Add to cart',
     'add_code_template' => 'Add a new code template',
     'add_funds' => 'Add funds',
@@ -20,6 +21,7 @@ return [
     'cart' => 'Cart',
     'code' => 'Code',
     'codes' => 'Codes',
+    'code_templates' => 'Code Templates',
     'continue_shopping' => 'Continue shopping',
     'create_pdf' => 'Download PDF',
     'date' => 'Date',

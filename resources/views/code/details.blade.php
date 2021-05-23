@@ -30,7 +30,6 @@
                             </div>
                         </div>
                     </form>
-                    <a href="{{route('code.list')}}" class="btn btn-primary">{{__('labels.back')}}</a><br /><br />
                 </div>
             </div>
         </div>

@@ -5,6 +5,7 @@
 @section('content')
 <div class="container">
 
+    {{ Breadcrumbs::render('payments.list') }}
 
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -39,7 +40,6 @@
             @empty
             <b>{{__('messages.no_payments')}}</b>
             @endforelse
-            <a href="{{route('home.index')}}" class="btn btn-primary">{{__('labels.back_home')}}</a><br />
         </div>
     </div>
 </div>

@@ -56,7 +56,6 @@
                 </div>
             </div>
             <br />
-            <a href="{{url()->previous()}}" class="btn btn-primary">{{__('labels.back')}}</a><br />
         </div>
     </div>
 </div>

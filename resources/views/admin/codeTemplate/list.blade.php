@@ -6,7 +6,7 @@
 <div class="container">
 
     {{ Breadcrumbs::render('codeTemplate.list') }}
-    
+
     <div class="row justify-content-center">
         <div class="col-md-8">
             <table class="table table-bordered">
@@ -32,7 +32,6 @@
                 </tbody>
             </table>
             <a href="{{route('codeTemplate.create')}}" class="btn btn-primary">{{__('messages.add_code_template')}}</a><br /><br />
-            <a href="{{route('home.index')}}" class="btn btn-primary">{{__('labels.back_home')}}</a><br />
         </div>
     </div>
 </div>

@@ -2,7 +2,7 @@
 
 // Home
 Breadcrumbs::for('home.index', function ($trail) {
-    $trail->push('Home', route('home.index'));
+    $trail->push(__('labels.home'), route('home.index'));
 });
 
 // CODE TEMPLATE
@@ -10,27 +10,47 @@ Breadcrumbs::for('home.index', function ($trail) {
 // Home > CodeTemplate List
 Breadcrumbs::for('codeTemplate.list', function ($trail) {
     $trail->parent('home.index');
-    $trail->push('CodeTemplates', route('codeTemplate.list'));
+    $trail->push(__('labels.code_templates'), route('codeTemplate.list'));
 });
 
 // Home > CodeTemplate Details
 Breadcrumbs::for('codeTemplate.details', function ($trail, $code) {
-    $trail->parent('home.index');
-    $trail->push('CodeTemplate details', route('codeTemplate.details', $code->id));
+    $trail->parent('codeTemplate.list');
+    $trail->push($code->toString(), route('codeTemplate.details', $code->id));
 });
 
 // Home > CodeTemplate Create
 Breadcrumbs::for('codeTemplate.addCode', function ($trail) {
-    $trail->parent('home.index');
-    $trail->push('CodeTemplate Add Code', route('codeTemplate.addCode'));
+    $trail->parent('codeTemplate.list');
+    $trail->push(__('labels.add_code_template'), route('codeTemplate.addCode'));
 });
 
 // Orders
 
-// Home > Orders List
+// Home > Orders
 Breadcrumbs::for('orders.list', function ($trail) {
     $trail->parent('home.index');
-    $trail->push('Orders List', route('orders.list'));
+    $trail->push(__('labels.all_orders'), route('orders.list'));
+});
+
+// Home > Orders > Details
+Breadcrumbs::for('orders.details', function ($trail, $payHistory) {
+    $trail->parent('orders.list');
+    $trail->push($payHistory->getUuId(), route('orders.list', $payHistory));
+});
+
+// Payments
+
+// Home > Payments
+Breadcrumbs::for('payments.list', function ($trail) {
+    $trail->parent('home.index');
+    $trail->push(__('labels.pay_history'), route('payhistory.showAll'));
+});
+
+// Home > Payments > Details
+Breadcrumbs::for('payments.details', function ($trail, $payHistory) {
+    $trail->parent('payments.list');
+    $trail->push($payHistory->getUuId(), route('payhistory.showOne', $payHistory));
 });
 
 // Cart
@@ -38,13 +58,13 @@ Breadcrumbs::for('orders.list', function ($trail) {
 // Home > Cart
 Breadcrumbs::for('cart.index', function ($trail) {
     $trail->parent('home.index');
-    $trail->push('Cart', route('cart.index'));
+    $trail->push(__('labels.cart'), route('cart.index'));
 });
 
 // Home > Cart > Buy
 Breadcrumbs::for('cart.buy', function ($trail) {
     $trail->parent('cart.index');
-    $trail->push('Buy', route('cart.buy'));
+    $trail->push(__('labels.buy'), route('cart.buy'));
 });
 
 // Code
@@ -52,11 +72,11 @@ Breadcrumbs::for('cart.buy', function ($trail) {
 // Home > Codes
 Breadcrumbs::for('code.list', function ($trail) {
     $trail->parent('home.index');
-    $trail->push('Codes', route('code.list'));
+    $trail->push(__('labels.codes'), route('code.list'));
 });
 
-// Home > Code details
+// Home > Code > details
 Breadcrumbs::for('code.details', function ($trail, $code) {
-    $trail->parent('home.index');
-    $trail->push('Code Details', route('code.details', $code));
+    $trail->parent('code.list');
+    $trail->push($code->toString(), route('code.details', $code));
 });
