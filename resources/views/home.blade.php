@@ -45,8 +45,6 @@
 
                     @endif
                 </div>
-                <a href="{{ route('home.locale', ['locale'=> 'en']) }}" class="btn btn-secondary float-right ">ENGLISH</a>
-                <a href="{{ route('home.locale', ['locale'=> 'es']) }}" class="btn btn-secondary float-right ">SPANISH</a>
             </div>
         </div>
     </div>

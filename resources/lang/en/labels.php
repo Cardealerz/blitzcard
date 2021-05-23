@@ -58,4 +58,7 @@ return [
     'user' => 'User',
     'value' => 'Value',
     'view_details' => 'View details',
+    'language' => 'Language:',
+    'english' => 'English',
+    'spanish' => 'Spanish',
 ];

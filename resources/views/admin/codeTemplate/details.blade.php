@@ -54,7 +54,7 @@
                         <input type="hidden" class="form-control" name="code_template_id" value="{{$codeTemplate->getId()}}" />
                         <div class="row align-items-center mb-2">
                             <div class="col-sm-7">
-                                <input type="text" class="form-control" name="code" value="{{old('value')}}" />
+                                <input type="text" class="form-control" name="code" value="{{old('code')}}" />
                             </div>
                             <div class="col-sm">
                                 <button type="submit" class="btn btn-primary" title="{{__('labels.add')}}"><i class="fas fa-plus"></i></button>
