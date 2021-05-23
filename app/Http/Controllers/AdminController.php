@@ -56,6 +56,17 @@ class AdminController extends Controller {
         return view('admin.orders.list')->with('data', $data);
     }
 
+    public function orderDetails($payment_id) {
+        if (! Auth::check()) {
+            return redirect()->route('cart.index')->withErrors([__('messages.no_permission')]);
+        }
+
+        $payHistory = [];
+        $payHistory = PayHistory::findOrFail($payment_id);
+
+        return view('admin.orders.details')->with('payHistory', $payHistory);
+    }
+
     public function create() {
         if (! Auth::check() || Auth::user()->role != 'admin') {
             return redirect()->route('home.index')->withErrors([__('messages.no_permission')]);

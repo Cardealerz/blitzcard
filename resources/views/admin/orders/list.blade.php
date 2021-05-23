@@ -29,14 +29,13 @@
                     <p class="card-text" style="color:red; font-family: Nunito">{{__('labels.status')}}: {{$paymentStatus}}</p>
                     @endif
 
-                    <a href="{{ route('payhistory.showOne',['payment_id' => $payHistory->getId()]) }}" class="btn btn-secondary float-right ">{{__('labels.view_details')}}</a>
+                    <a href="{{ route('orders.details',['payment_id' => $payHistory->getId()]) }}" class="btn btn-secondary float-right ">{{__('labels.view_details')}}</a>
                     <a href="{{ route('payhistory.createPDF',['payment_id' => $payHistory->getId()]) }}" class="btn btn-primary float-right mr-1"><i class="fas fa-download"></i> {{__('labels.create_pdf')}}</a>
                 </div>
             </div>
             @empty
             <b>{{__('messages.no_payments')}}</b>
             @endforelse
-            <a href="{{route('home.index')}}" class="btn btn-primary">{{__('labels.back_home')}}</a><br />
         </div>
     </div>
 </div>

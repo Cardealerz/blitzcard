@@ -5,7 +5,7 @@
 @section('content')
 <div class="container">
 
-    
+
 
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -25,7 +25,7 @@
                     <form method="POST" action="{{ route('payhistory.finish') }}">
                         @csrf
                         @php
-                            $paymentData = $data["payment"];
+                        $paymentData = $data["payment"];
                         @endphp
                         <input type="hidden" name="uuid" value="{{ $paymentData["uuid"]}}" />
                         <input type="hidden" name="user_id" value="{{ $paymentData["user_id"]}}" />
@@ -45,12 +45,12 @@
                         <div class="row">
                             <div class="col">
                                 <input type="radio" class="form-control" name="payment_method" value="PayPal">
-                                <label for="PayPal">PayPal</label>                            
+                                <label for="PayPal">PayPal</label>
                                 <input type="radio" class="form-control" name="payment_method" value="PSE">
-                                <label for="PSE">PSE</label>  
+                                <label for="PSE">PSE</label>
                             </div>
                         </div>
-                        
+
                         <div class="col text-center pt-2">
                             <input type="submit" value={{__('labels.add')}} type="button" class="btn btn-primary" />
                         </div>
@@ -59,7 +59,6 @@
                 </div>
             </div>
             <br />
-            <a href="{{url()->previous()}}" class="btn btn-primary">{{__('labels.back')}}</a><br />
         </div>
     </div>
 </div>
