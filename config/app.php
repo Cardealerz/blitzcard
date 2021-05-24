@@ -81,6 +81,7 @@ return [
     */
 
     'locale' => 'en',
+    'locales' => ['en' => 'English', 'es' => 'Spanish'],
 
     /*
     |--------------------------------------------------------------------------
@@ -176,6 +177,9 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         MattAllan\LaravelCodeStyle\ServiceProvider::class,
+
+        /* my providers */
+        App\Providers\MailServiceProvider::class,
 
     ],
 

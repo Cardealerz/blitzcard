@@ -103,6 +103,13 @@
             @yield('content')
         </main>
     </div>
+    <div class="footer">
+        &copy; blitzcard.xyz - 2021 -
+        {{__('labels.language')}}
+        <a href="{{ route('home.locale', ['locale'=> 'en']) }}">{{__('labels.english')}}</a>
+        <a href="{{ route('home.locale', ['locale'=> 'es']) }}">{{__('labels.spanish')}}</a>
+    </div>
+
 </body>
 
 </html>

@@ -5,9 +5,10 @@
 @section('content')
 <div class="container">
 
-    {{ Breadcrumbs::render('payments.details', $payHistory) }}
+    {{ Breadcrumbs::render('orders.details', $payHistory) }}
 
     <div class="row justify-content-center">
+
         <div class="col-md-8">
             <div class="card">
                 @if($errors->any())

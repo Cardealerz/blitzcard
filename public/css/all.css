@@ -6142,3 +6142,21 @@ readers do not read off random characters that represent icons */
     font-family: "Font Awesome 5 Free";
     font-weight: 900;
 }
+
+/* FOOTER */
+
+.footer {
+    background: #254680;
+    color: #ffffff;
+    height: 50px;
+    width: 100%;
+    text-align: center;
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    padding-top: 20px;
+}
+
+.footer a {
+    color: #4582ec;
+}

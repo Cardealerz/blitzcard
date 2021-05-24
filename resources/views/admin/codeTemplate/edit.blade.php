@@ -45,7 +45,6 @@
                             </div>
                         </div>
                     </form>
-                    <a class="btn btn-primary" href="{{ route('codeTemplate.details',['id' => $data['code']->getCodeTemplateId()]) }}">{{__('labels.back')}}</a>
                 </div>
             </div>
         </div>
