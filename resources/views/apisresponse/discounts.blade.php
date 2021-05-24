@@ -4,7 +4,7 @@
 
 
 <div class="container">
-    <h1>Descuentos de productos (Grupo 7) </h1>
+    <h1>{{__('messages.products_discount')}} </h1>
 
     <div class="row">
 
@@ -27,7 +27,7 @@
                 <div class="col-sm-12 m-1">
                     <div class="card">
                         <div class="card-body">
-                            No hay productos con descuento
+                            {{__('messages.no_products')}}
                         </div>
                     </div>
                 </div>

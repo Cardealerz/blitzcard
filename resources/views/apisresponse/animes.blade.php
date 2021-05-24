@@ -4,7 +4,7 @@
 
 
 <div class="container">
-    <h1>Animes </h1>
+    <h1>{{__('messages.animes_list')}} </h1>
 
     <div class="row">
         @if(count($animes->anime) > 0)    
@@ -21,7 +21,7 @@
             <div class="col-sm-12 m-1">
                 <div class="card">
                     <div class="card-body">
-                        No animes
+                        {{__('messages.no_anime')}}
                     </div>
                 </div>
             </div>

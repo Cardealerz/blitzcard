@@ -26,4 +26,8 @@ return [
     'viewing_results' => 'Viewing results for: ',
     'update_success' => 'Updated successfully.',
     'see_orders' => 'See all orders',
+    'animes_list' => 'List of animes',
+    'no_anime' => 'No anime',
+    'products_discount' => 'Product discounts (Group 7)',
+    'no_products' => 'No discounted products',
 ];
