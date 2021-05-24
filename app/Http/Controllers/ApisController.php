@@ -14,7 +14,7 @@ class ApisController extends Controller {
     }
 
     /**
-     * Show the response of photos
+     * Show the response of animes
      *
      */
     public function animes() {
@@ -28,5 +28,22 @@ class ApisController extends Controller {
         $animes = json_decode($response->getBody()->getContents());
 
         return view('apisresponse.animes')->with('animes', $animes);
+    }
+
+        /**
+     * Show the response of animes
+     *
+     */
+    public function discounts() {
+
+        $client = new Client([
+            'base_uri' => 'http://ec2-54-167-6-108.compute-1.amazonaws.com',
+        ]);
+
+        $response = $client->request('GET', '/public/api/discounts');
+
+        $discounts = json_decode($response->getBody()->getContents());
+
+        return view('apisresponse.discounts')->with('discounts', $discounts);
     }
 }
