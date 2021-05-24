@@ -71,3 +71,8 @@ Route::group(['middleware' => 'language'], function () {
         Route::get('/list', 'App\Http\Controllers\Api\CodeTemplateApi@list')->name('api.list');
     });
 });
+
+Route::group(['prefix' => 'responses'], function () {
+    Route::get('/animes', 'App\Http\Controllers\ApisController@animes')->name('responses.animes');
+    Route::get('/discounts', 'App\Http\Controllers\ApisController@discounts')->name('responses.discounts');
+});
