@@ -1,7 +1,26 @@
 <?php
 
 return [
+    'address' => 'Address',
+    'birthday' => 'Birthday',
+    'check_email' => 'Before proceeding, please check your email for a verification link.',
+    'confirm_password' => 'Confirm password',
+    'email' => 'E-mail Address',
+    'email_sent' => 'A fresh verification link has been sent to your email address.',
     'failed' => 'These credentials do not match our records.',
+    'forgot' => 'Forgot Your Password?',
+    'full_name' => 'Full name',
+    'login' => 'Login',
+    'not_received' => 'If you did not receive the email',
+    'pass' => 'Password',
     'password' => 'The provided password is incorrect.',
+    'please_confirm_password' => 'Please confirm your password before continuing.',
+    'register' => 'Register',
+    'remember' => 'Remember me',
+    'request_another' => 'click here to request another',
+    'reset_link' => 'Send Password Reset Link',
+    'reset_password' => 'Reset password',
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
+    'username' => 'Username',
+    'verify_email' => 'Verify your Email address',
 ];

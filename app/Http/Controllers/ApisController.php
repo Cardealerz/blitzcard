@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use GuzzleHttp\Client;
 
 class ApisController extends Controller {
@@ -14,28 +15,24 @@ class ApisController extends Controller {
     }
 
     /**
-     * Show the response of animes
-     *
+     * Show the response of animes.
      */
     public function animes() {
-
         $client = new Client([
             'base_uri' => 'https://api.jikan.moe',
         ]);
 
-        $response = $client->request('GET', '/v3/genre/anime/1/1');
+        $response = $client->request('GET', '/v3/genre/anime/1/1', ['verify' => false]);
 
         $animes = json_decode($response->getBody()->getContents());
 
         return view('apisresponse.animes')->with('animes', $animes);
     }
 
-        /**
-     * Show the response of animes
-     *
+    /**
+     * Show the response of animes.
      */
     public function discounts() {
-
         $client = new Client([
             'base_uri' => 'http://ec2-54-167-6-108.compute-1.amazonaws.com',
         ]);
