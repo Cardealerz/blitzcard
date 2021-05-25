@@ -1,7 +1,26 @@
 <?php
 
 return [
+    'address' => 'Dirección',
+    'birthday' => 'Cumpleaños',
+    'check_email' => 'Antes de continuar, compruebe su correo electrónico para ver un enlace de verificación.',
+    'confirm_password' => 'Confirmar contraseña',
+    'email' => 'Dirección de correo electrónico',
+    'email_sent' => 'Se ha enviado un nuevo enlace de verificación a su dirección de correo electrónico.',
     'failed' => 'Estas credenciales no coinciden con nuestros registros.',
+    'forgot' => '¿Olvidaste tu contraseña?',
+    'full_name' => 'Nombre completo',
+    'login' => 'Iniciar sesión',
+    'not_received' => 'Si no recibiste el correo electrónico',
+    'pass' => 'Contraseña',
     'password' => 'La contraseña proporcionada es incorrecta.',
+    'please_confirm_password' => 'Por favor confirme su contraseña antes de continuar.',
+    'register' => 'Registro',
+    'remember' => 'Recuérdame',
+    'request_another' => 'haga clic aquí para solicitar otro',
+    'reset_link' => 'Enviar enlace para restablecer contraseña',
+    'reset_password' => 'Restablecer la contraseña',
     'throttle' => 'Demasiados intentos de inicio de sesión. Vuelva a intentarlo en :seconds segundos.',
+    'username' => 'Nombre de usuario',
+    'verify_email' => 'Verifique su dirección de correo electrónico',
 ];

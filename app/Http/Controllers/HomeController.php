@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Session;
-
 class HomeController extends Controller {
     /**
      * Create a new controller instance.
@@ -24,7 +22,7 @@ class HomeController extends Controller {
     }
 
     public function setLocale($locale) {
-        Session::put('locale', $locale);
+        \Session::put('locale', $locale);
 
         return redirect()->back();
     }

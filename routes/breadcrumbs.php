@@ -80,3 +80,19 @@ Breadcrumbs::for('code.details', function ($trail, $code) {
     $trail->parent('code.list');
     $trail->push($code->toString(), route('code.details', $code));
 });
+
+// Discounts
+
+// Home > Discounts
+Breadcrumbs::for('responses.discounts', function ($trail) {
+    $trail->parent('home.index');
+    $trail->push(__('messages.special_product_discounts'), route('responses.discounts'));
+});
+
+// Anime
+
+// Home > Anime
+Breadcrumbs::for('responses.animes', function ($trail) {
+    $trail->parent('home.index');
+    $trail->push(__('messages.animes_list'), route('responses.animes'));
+});

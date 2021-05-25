@@ -59,13 +59,13 @@
                         @guest
                         @if (Route::has('login'))
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('login') }}"><i class="fas fa-sign-in-alt"></i> {{ __('Login') }}</a>
+                            <a class="nav-link" href="{{ route('login') }}"><i class="fas fa-sign-in-alt"></i> {{ __('auth.login') }}</a>
                         </li>
                         @endif
 
                         @if (Route::has('register'))
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('register') }}"><i class="fas fa-user-plus"></i> {{ __('Register') }}</a>
+                            <a class="nav-link" href="{{ route('register') }}"><i class="fas fa-user-plus"></i> {{ __('auth.register') }}</a>
                         </li>
                         @endif
                         @else
@@ -106,8 +106,8 @@
     <div class="footer">
         &copy; blitzcard.xyz - 2021 -
         {{__('labels.language')}}
-        <a href="{{ route('home.locale', ['locale'=> 'en']) }}">{{__('labels.english')}}</a>
-        <a href="{{ route('home.locale', ['locale'=> 'es']) }}">{{__('labels.spanish')}}</a>
+        <a href="{{ route('lang.locale', ['locale'=> 'en']) }}">{{__('labels.english')}}</a>
+        <a href="{{ route('lang.locale', ['locale'=> 'es']) }}">{{__('labels.spanish')}}</a>
     </div>
 
 </body>

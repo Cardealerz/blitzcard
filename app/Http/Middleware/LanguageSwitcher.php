@@ -3,15 +3,9 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 
 class LanguageSwitcher {
-    public function __construct(Application $app, Request $request) {
-        $this->app = $app;
-        $this->request = $request;
-    }
-
     /**
      * Handle an incoming request.
      *
@@ -19,8 +13,10 @@ class LanguageSwitcher {
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle($request, Closure $next) {
-        $this->app->setLocale(session('locale', config('app.locale')));
+    public function handle(Request $request, Closure $next) {
+        if (\Session::has('locale')) {
+            \App::setlocale(\Session::get('locale'));
+        }
 
         return $next($request);
     }
